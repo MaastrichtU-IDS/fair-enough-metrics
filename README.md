@@ -1,4 +1,4 @@
-# ✅ FAIR Enough metrics for research
+# ☑️ FAIR Enough metrics for research
 
 [![Test Metrics](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml)
 
@@ -61,7 +61,7 @@ docker-compose -f docker-compose.prod.yml up -d
 
 > We use a reverse [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) for docker to route the services.
 
-## ✅ Test the Metrics API
+## ✔️ Test the Metrics API
 
 Add tests in the `./tests/test_metrics.py` file. You just need to add new entries to the JSON file to test different subjects results against the metrics tests:
 
