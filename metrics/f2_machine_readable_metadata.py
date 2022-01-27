@@ -11,11 +11,10 @@ class MetricTest(FairTest):
     applies_to_principle = 'F2'
 
     title = 'Metadata is machine-readable'
-    description = """This assessment will try to extract as much metadata it can from the resource URI, and put it in self.data
-It can be useful to put it at the start of your collection, and then search for properties in the metadata extracted.
-Search for structured metadata at the resource URI. 
-Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON), 
-and extract metadata from the HTML landing page using extruct"""
+    description = """This assessment will try to extract metadata from the resource URI:
+- Search for structured metadata at the resource URI. 
+- Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON), 
+- Extract metadata from the HTML landing page using extruct"""
     author = 'https://orcid.org/0000-0002-1501-1082'
 
     def evaluate(self, input: DefaultInput):

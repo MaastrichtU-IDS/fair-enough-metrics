@@ -7,6 +7,7 @@ import json
 import requests
 from rdflib import Graph, URIRef
 import html
+import yaml
 import extruct
 from api.config import settings
 # Plugin and serializer required to parse jsonld with rdflib
@@ -46,40 +47,6 @@ class FairTest(BaseModel):
     class Config:
         arbitrary_types_allowed = True
 
-
-    def evaluate(self, input: TestInput):
-        print(input)
-        return JSONResponse({
-            'subject': input.subject,
-            'toast': 'default'
-        })
-
-
-    def openapi_yaml(self):
-        metric_info = f"""swagger: '2.0'
-info:
- version: {self.metric_version}
- title: "{self.title}"
- x-tests_metric: '{settings.BASE_URI}/tests/{self.metric_path}'
- description: >-
-   {self.description}
- x-applies_to_principle: "F4"
- contact:
-  x-organization: "{settings.ORG_NAME}"
-  url: "{settings.CONTACT_URL}"
-  name: '{settings.CONTACT_NAME}'
-  x-role: "responsible developer"
-  email: {settings.CONTACT_EMAIL}
-  x-id: '{settings.CONTACT_ORCID}'
-host: {settings.HOST}
-basePath: /tests/
-schemes:
-  - https
-paths:
- {self.metric_path}:
-{yaml_params}
-"""
-        return PlainTextResponse(content=metric_info, media_type='text/x-yaml')
 
     def response(self) -> list:
         return JSONResponse(self.toJsonld())
@@ -238,29 +205,79 @@ paths:
         return g
 
 
-yaml_params = """  post:
-parameters:
-    - name: content
-    in: body
-    required: true
-    schema:
-        $ref: '#/definitions/schemas'
-consumes:
-    - application/json
-produces:
-    - application/json
-responses:
-    "200":
-    description: >-
-        The response is a binary (1/0), success or failure
-definitions:
-schemas:
-    required:
-    - subject
-    properties:
-        subject:
-        type: string
-        description: >-
-            the GUID being tested
-"""
+    # Function used for the GET YAML call for each Metric Test
+    def evaluate(self, input: TestInput):
+        return JSONResponse({
+            'errorMessage': 'Not implemented'
+        })
+
+
+    # https://github.com/LUMC-BioSemantics/RD-FAIRmetrics/blob/main/docs/yaml/RD-R1.yml
+    # Function used for the GET YAML call for each Metric Test
+    def openapi_yaml(self):
+        metric_info = {
+          "swagger": "2.0",
+          "info": {
+            "version": f"{str(self.metric_version)}",
+            "title": {self.title},
+            "x-tests_metric": f"{settings.BASE_URI}/tests/{self.metric_path}",
+            "description": self.description,
+            "x-applies_to_principle": self.applies_to_principle,
+            "contact": {
+              "x-organization": settings.ORG_NAME,
+              "url": settings.CONTACT_URL,
+              "name": settings.CONTACT_NAME,
+              "x-role": "responsible developer",
+              "email": settings.CONTACT_EMAIL,
+              "x-id": settings.CONTACT_ORCID
+            }
+          },
+          "host": settings.HOST,
+          "basePath": "/tests/",
+          "schemes": [
+            "https"
+          ],
+          "paths": {
+            self.metric_path: {
+              "post": {
+                "parameters": [
+                  {
+                    "name": "content",
+                    "in": "body",
+                    "required": True,
+                    "schema": {
+                      "$ref": "#/definitions/schemas"
+                    }
+                  }
+                ],
+                "consumes": [
+                  "application/json"
+                ],
+                "produces": [
+                  "application/json"
+                ],
+                "responses": {
+                  "200": {
+                    "description": "The response is a binary (1/0), success or failure"
+                  }
+                }
+              }
+            }
+          },
+          "definitions": {
+            "schemas": {
+              "required": [
+                "subject"
+              ],
+              "properties": {
+                "subject": {
+                  "type": "string",
+                  "description": "the GUID being tested"
+                }
+              }
+            }
+          }
+        }
+        api_yaml = yaml.dump(metric_info, indent=2)
+        return PlainTextResponse(content=api_yaml, media_type='text/x-yaml')
 

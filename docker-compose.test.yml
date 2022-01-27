@@ -9,5 +9,5 @@ services:
         INSTALL_DEV: true
     volumes:
       - ./tests:/app/tests
-    command: pytest
-    # command: pytest -s
+    # command: pytest
+    command: pytest -s

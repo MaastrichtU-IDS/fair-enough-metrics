@@ -1,6 +1,8 @@
 # ✅ FAIR Enough metrics for research
 
-FAIR metrics tests service for Rare Disease research.
+[![Test Metrics](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml)
+
+[FAIR](https://www.go-fair.org/fair-principles/) metrics tests service for Rare Disease research.
 
 Deployed publicy at https://metrics.api.fair-enough.semanticscience.org
 

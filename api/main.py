@@ -12,6 +12,8 @@ app = FastAPI(
     title='FAIR Metrics tests API for Rare Disease',
     description="""FAIR Metrics tests API for resources related to research on Rare Disease.
 
+[![Test Metrics](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml)
+
 [Source code](https://github.com/MaastrichtU-IDS/fair-enough-metrics)    
 """,
     license_info = {

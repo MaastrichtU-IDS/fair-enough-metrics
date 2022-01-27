@@ -35,6 +35,7 @@ def test_get_yaml(test_api):
         metrics_id_to_test.add(eval['metric_id'])
     for metric_id in list(metrics_id_to_test):
         r = test_api.get(f"/tests/{metric_id}")
+        # print(r.text)
         assert r.status_code == 200
         api_yaml = yaml.load(r.text, Loader=yaml.FullLoader)
         assert api_yaml['info']['title']

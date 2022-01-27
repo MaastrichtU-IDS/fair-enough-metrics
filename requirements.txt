@@ -6,3 +6,4 @@ requests
 PyShEx
 PyLD
 extruct
+PyYAML
