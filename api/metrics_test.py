@@ -219,7 +219,7 @@ class FairTest(BaseModel):
           "swagger": "2.0",
           "info": {
             "version": f"{str(self.metric_version)}",
-            "title": {self.title},
+            "title": self.title,
             "x-tests_metric": f"{settings.BASE_URI}/tests/{self.metric_path}",
             "description": self.description,
             "x-applies_to_principle": self.applies_to_principle,
