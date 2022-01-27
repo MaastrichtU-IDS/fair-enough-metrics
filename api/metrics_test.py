@@ -66,7 +66,7 @@ class FairTest(BaseModel):
                         "@type": "http://www.w3.org/2001/XMLSchema#date"
                     }
                 ],
-                "http://schema.org/metric_version": [
+                "http://schema.org/softwareVersion": [
                 {
                     "@value": self.metric_version,
                     "@type": "http://www.w3.org/2001/XMLSchema#float"

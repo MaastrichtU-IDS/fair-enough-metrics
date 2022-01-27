@@ -2,7 +2,7 @@
 
 [![Test Metrics](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml)
 
-[FAIR](https://www.go-fair.org/fair-principles/) metrics tests service for Rare Disease research.
+[FAIR](https://www.go-fair.org/fair-principles/) service for various FAIR Metrics Tests, using the specifications defined by the [FAIRMetrics](https://github.com/FAIRMetrics/Metrics) working group
 
 Deployed publicy at https://metrics.api.fair-enough.semanticscience.org
 
@@ -14,7 +14,7 @@ Deployed publicy at https://metrics.api.fair-enough.semanticscience.org
 Metrics tests API built with Python and [FastAPI](https://fastapi.tiangolo.com/).
 
 
-## Deploy the API
+## 🧑‍💻 Deploy the API
 
 Clone the repository:
 
