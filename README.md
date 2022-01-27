@@ -2,21 +2,21 @@
 
 [![Test Metrics](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml)
 
-[FAIR](https://www.go-fair.org/fair-principles/) service for various FAIR Metrics Tests, using the specifications defined by the [FAIRMetrics](https://github.com/FAIRMetrics/Metrics) working group.
+FAIR Enough Metrics is an API for various [FAIR](https://www.go-fair.org/fair-principles) Metrics Tests, written in python, conforming to the specifications defined by the [FAIRMetrics](https://github.com/FAIRMetrics/Metrics) working group.
 
-Deployed publicy at https://metrics.api.fair-enough.semanticscience.org
+This API is deployed publicy at https://metrics.api.fair-enough.semanticscience.org
 
-🗃️ Can be used with the FAIR evaluation services:
+It can be used with the FAIR evaluation services:
 
 * https://fair-enough.semanticscience.org
 * https://fairsharing.github.io/FAIR-Evaluator-FrontEnd
 
-Metrics tests API built with Python and [FastAPI](https://fastapi.tiangolo.com/).
+> Metrics tests API built [FastAPI](https://fastapi.tiangolo.com/).
 
 
 ## 🧑‍💻 Deploy the API
 
-Clone the repository:
+First, clone the repository:
 
 ```bash
 git clone https://github.com/MaastrichtU-IDS/fair-enough-metrics
@@ -25,13 +25,13 @@ cd fair-enough-metrics
 
 ### 🐳 Development with docker (recommended)
 
-From the root of this repository, run the command below, and access the OpenAPI Swagger UI on http://localhost:8000
+From the root of the cloned repository, run the command below, and access the OpenAPI Swagger UI on http://localhost:8000
 
 ```bash
 docker-compose up
 ```
 
-The API will automatically reload on changes to the code.
+> The API will automatically reload on changes to the code 🔄
 
 ### 🐍 Development without docker
 
@@ -63,6 +63,8 @@ docker-compose -f docker-compose.prod.yml up -d
 
 ## ✔️ Test the Metrics Tests API
 
+The tests are run automatically by a GitHub Action workflow at every push to the `main` branch.
+
 Add tests in the `./tests/test_metrics.py` file. You just need to add new entries to the JSON file to test different subjects results against the metrics tests:
 
 ```python
@@ -79,6 +81,8 @@ Run the tests in docker-compose:
 docker-compose -f docker-compose.test.yml up --force-recreate
 ```
 
+> You can enable more detailed logs by changing the `command:` in the `docker-compose.test.yml` file to use `pytest -s`
+
 ## ➕ Create a new FAIR Metrics Tests service
 
 You can easily use this repository to build and publish new FAIR metrics tests. 
@@ -86,3 +90,5 @@ You can easily use this repository to build and publish new FAIR metrics tests.
 1. Fork this repository
 2. Change the API settings in `api/config.py`
 3. Use the existing tests python files in the `metrics` folder to start writing FAIR metrics tests!
+4. Start your FAIR metrics tests API with `docker-compose`!
+
