@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from fastapi.responses import JSONResponse, PlainTextResponse
 from typing import Optional, List
 import datetime
 import urllib.parse
@@ -10,7 +11,6 @@ import extruct
 from api.config import settings
 # Plugin and serializer required to parse jsonld with rdflib
 from pyld import jsonld
-from fastapi.responses import JSONResponse, PlainTextResponse
 
 
 class TestInput(BaseModel):

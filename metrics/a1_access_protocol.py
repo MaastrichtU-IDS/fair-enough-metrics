@@ -1,5 +1,4 @@
 from api.metrics_test import TestInput, FairTest
-from fastapi.responses import JSONResponse
 from rdflib.namespace import RDFS, XSD, DC, DCTERMS, VOID, OWL, SKOS
 import requests
 
@@ -46,9 +45,9 @@ Find information about authorization in metadata"""
                 found_access_rights = True
 
         if found_access_rights:
-            self.success(f'Found dcterms:accessRights in metadata: {str(accessRights)}')
+            self.bonus(f'Found dcterms:accessRights in metadata: {str(accessRights)}')
         else:
-            self.failure('Could not find dcterms:accessRights information in metadata')
+            self.warn('Could not find dcterms:accessRights information in metadata')
             self.warn(f"Make sure your metadata contains informations about access rights using one of those predicates: {', '.join(access_rights_preds)}")
 
         return self.response()

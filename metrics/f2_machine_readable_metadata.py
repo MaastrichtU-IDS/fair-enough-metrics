@@ -1,8 +1,5 @@
 from api.metrics_test import TestInput, FairTest
-import os
-import extruct
 import requests
-import html
 
 class DefaultInput(TestInput):
     subject = 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972'

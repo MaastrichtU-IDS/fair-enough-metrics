@@ -1,5 +1,4 @@
 from api.metrics_test import TestInput, FairTest
-import os
 import requests
 import re
 import io

@@ -1,17 +1,11 @@
-from fastapi import FastAPI, APIRouter, Request, Response
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi import FastAPI, APIRouter
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List, Optional
-from pydantic import BaseSettings
-
-# from metrics import router
 from api import metrics_api
-
 
 api_router = APIRouter()
 
 # Import tests from the metrics folder:
-# api_router.include_router(metrics_api.router, prefix='/tests', tags=["FAIR Metrics Tests"])
 api_router.include_router(metrics_api.router, prefix='/tests')
 
 app = FastAPI(

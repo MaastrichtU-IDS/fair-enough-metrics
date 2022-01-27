@@ -1,4 +1,3 @@
-from urllib.parse import urlparse
 from api.metrics_test import TestInput, FairTest
 import json
 import rdflib

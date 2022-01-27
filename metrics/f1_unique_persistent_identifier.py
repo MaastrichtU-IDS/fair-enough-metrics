@@ -1,6 +1,4 @@
 from api.metrics_test import TestInput, FairTest
-from pydantic import BaseModel
-from fastapi.responses import JSONResponse
 from urllib.parse import urlparse
 import requests
 
@@ -19,10 +17,6 @@ class MetricTest(FairTest):
 
     def evaluate(self, input: DefaultInput):
         self.subject = input.subject
-        # return JSONResponse({
-        #     'subject': input.subject,
-        #     'toast': 'tata'
-        # })
 
         accepted_persistent = ['doi.org', 'purl.org', 'identifiers.org', 'w3id.org']
 
