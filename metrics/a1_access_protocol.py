@@ -1,27 +1,20 @@
-from api.metrics_test import TestInput, FairTest
+from api.metrics_test import FairTest
 from rdflib.namespace import RDFS, XSD, DC, DCTERMS, VOID, OWL, SKOS
 import requests
 
 
-class DefaultInput(TestInput):
-    subject = 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972'
-
-
 class MetricTest(FairTest):
-    metric_version = '0.1.0'
     metric_path = 'a1-access-protocol'
     applies_to_principle = 'A1'
-    
     title = 'Check Access Protocol'
     description = """The access protocol and authorization (if content restricted).
 For the protocol , do an HTTP get on the URL to see if it returns a valid document.
 Find information about authorization in metadata"""
     author = 'https://orcid.org/0000-0002-1501-1082'
+    metric_version = '0.1.0'
 
 
-    def evaluate(self, input: DefaultInput):
-        self.subject = input.subject
-
+    def evaluate(self):
         self.info(f'Access protocol: check resource URI protocol is resolvable for {self.subject}')
         try:
             r = requests.get(self.subject)

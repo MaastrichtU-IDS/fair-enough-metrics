@@ -1,27 +1,20 @@
-from api.metrics_test import TestInput, FairTest
+from api.metrics_test import FairTest
 from urllib.parse import urlparse
 import requests
 
-class DefaultInput(TestInput):
-    subject = 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972'
-
 
 class MetricTest(FairTest):
-    metric_version = '0.1.0'
     metric_path = 'f1-unique-persistent-id'
     applies_to_principle = 'F1'
-
     title = 'Resource identifier is unique and persistent'
     description = 'Check if the identifier of the resource is unique (HTTP) and persistent (some HTTP domains)'
     author = 'https://orcid.org/0000-0002-1501-1082'
+    metric_version = '0.1.0'
 
-    def evaluate(self, input: DefaultInput):
-        self.subject = input.subject
 
+    def evaluate(self):
+        # TODO: use https://pythonhosted.org/IDUtils
         accepted_persistent = ['doi.org', 'purl.org', 'identifiers.org', 'w3id.org']
-
-        # TODO: use https://pythonhosted.org/IDUtils/
-
         self.info('Checking if the given resource URI ' + self.subject + ' is a valid URL using urllib.urlparse')
         result = urlparse(self.subject)
         if result.scheme and result.netloc:
@@ -45,7 +38,6 @@ class MetricTest(FairTest):
             self.data['alternative_uris'].append(r.url)
         
 
-
         self.info('Check if the given resource URI ' + self.subject + ' use a persistent URI, one of: ' + ', '.join(accepted_persistent))
         if self.data['uri_location'] in accepted_persistent:
             # Checking URI location extracted by f1_1_assess_unique_identifier
@@ -64,6 +56,3 @@ class MetricTest(FairTest):
             self.data['alternative_uris'].append(self.subject.lower())
 
         return self.response()
-
-
-

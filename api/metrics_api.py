@@ -32,7 +32,7 @@ for assess_name in assess_name_list:
         router.add_api_route(
             path=f"/{metric.metric_path}",
             methods=["POST"],
-            endpoint=metric.evaluate,
+            endpoint=metric.doEvaluate,
             name=metric.title,
             openapi_extra={
                 'description': metric.description

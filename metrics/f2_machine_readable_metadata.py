@@ -1,27 +1,20 @@
-from api.metrics_test import TestInput, FairTest
+from api.metrics_test import FairTest
 import requests
-
-class DefaultInput(TestInput):
-    subject = 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972'
 
 
 class MetricTest(FairTest):
-    metric_version = '0.1.0'
     metric_path = 'f2-machine-readable-metadata'
     applies_to_principle = 'F2'
-
     title = 'Metadata is machine-readable'
     description = """This assessment will try to extract metadata from the resource URI:
 - Search for structured metadata at the resource URI. 
 - Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON), 
 - Extract metadata from the HTML landing page using extruct"""
     author = 'https://orcid.org/0000-0002-1501-1082'
+    metric_version = '0.1.0'
 
-    def evaluate(self, input: DefaultInput):
-        self.subject = input.subject
-        # check_mime_types = [ mime_types['rdf'], 'text/turtle', mime_types['jsonld'] ]
-        # mime_types['turtle'], mime_types['json']
 
+    def evaluate(self):
         # Check if URL resolve and if redirection
         r = requests.head(self.subject)
         r = requests.get(self.subject)

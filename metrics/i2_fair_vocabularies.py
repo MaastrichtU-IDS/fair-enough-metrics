@@ -1,28 +1,22 @@
-from api.metrics_test import TestInput, FairTest
+from api.metrics_test import FairTest
 import requests
 import re
 import io
 
-class DefaultInput(TestInput):
-    subject = 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972'
-
 
 class MetricTest(FairTest):
-    metric_version = '0.1.0'
     metric_path = 'i2-fair-vocabularies'
     applies_to_principle = 'I2'
-
     title = 'Metadata uses FAIR Vocabularies'
     description = """The metadata values and qualified relations should 
 themselves be FAIR, for example, terms from open, community-accepted 
 vocabularies published in an appropriate knowledge-exchange format. 
 Resolve IRIs, check FAIRness of the returned documents."""
     author = 'https://orcid.org/0000-0002-1501-1082'
-    max_score = 1
-    max_bonus = 0
+    metric_version = '0.1.0'
 
-    def evaluate(self, input: DefaultInput):
-        self.subject = input.subject
+
+    def evaluate(self):        
         # LOV docs: https://lov.linkeddata.es/dataset/lov/api
         lov_api = 'https://lov.linkeddata.es/dataset/lov/api/v2/vocabulary/list'
         lod_cloudnet = 'https://lod-cloud.net/lod-data.json'

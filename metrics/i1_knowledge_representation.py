@@ -1,4 +1,4 @@
-from api.metrics_test import TestInput, FairTest
+from api.metrics_test import FairTest
 import json
 import rdflib
 # JSON-LD workaround 
@@ -6,23 +6,18 @@ import rdflib
 # from rdflib import ConjunctiveGraph
 # from rdflib.serializer import Serializer
 
-class DefaultInput(TestInput):
-    subject = 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972'
-
 
 class MetricTest(FairTest):
-    metric_version = '0.1.0'
     metric_path = 'i1-knowledge-representation'
     applies_to_principle = 'I1'
-
     title = 'Metadata uses a formal knowledge representation language'
     description = "Check if the resource metadata found can be parsed as RDF"
     author = 'https://orcid.org/0000-0002-1501-1082'
+    metric_version = '0.1.0'
 
-    def evaluate(self, input: DefaultInput):
-        self.subject = input.subject
+
+    def evaluate(self):        
         # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L190
-
         g = self.getRDF(self.subject)
         if len(g) > 1:
             self.success('Successfully parsed the RDF metadata retrieved with content negotiation. It contains ' + str(len(g)) + ' triples')

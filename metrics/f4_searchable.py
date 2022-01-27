@@ -1,39 +1,38 @@
-from api.metrics_test import TestInput, FairTest
+from api.metrics_test import FairTest
 import requests
+from urllib.parse import urlparse
 # from googlesearch import search
-
-from fastapi import APIRouter, Body, Depends
+# from fastapi import APIRouter, Body, Depends
 # from fastapi_utils.cbv import cbv
-from rdflib import Graph
-
-class DefaultInput(TestInput):
-    subject = 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972'
 
 
 class MetricTest(FairTest):
     metric_version = '0.1.0'
     metric_path = 'f4-searchable'
     applies_to_principle = 'F4'
-
     title = 'The resource is indexed in a searchable resource'
     description = """Search for existing metadata about the resource URI in data repositories, such as DataCite, RE3data."""
     author = 'https://orcid.org/0000-0002-1501-1082'
-    max_score = 1
-    max_bonus = 0
+    
 
-    def evaluate(self, input: DefaultInput):
-        self.subject = input.subject
-
+    def evaluate(self):
         datacite_endpoint = 'https://api.datacite.org/repositories'
         re3data_endpoint = 'https://re3data.org/api/beta/repositories'
         datacite_dois_api = 'https://api.datacite.org/dois/'
         # metadata_catalog = https://rdamsc.bath.ac.uk/api/m
         # headers = {"Accept": "application/json"}
+        doi = None
+        result = urlparse(self.subject)
+        if result.scheme and result.netloc:
+            if result.netloc == 'doi.org':
+                doi = result.path[1:]
+                self.success('The subject resource URI ' + self.subject + ' is a DOI')
+        else:
+            self.warn('Could not validate the given resource URI ' + self.subject + ' is a URL')    
 
         # If DOI: check for metadata in DataCite API
         try:
-            if 'uri_doi' in self.data and self.data['uri_doi']:
-                doi = self.data['uri_doi']
+            if doi:
                 self.info('Checking DataCite API for metadata about the DOI: ' + doi)
                 r = requests.get(datacite_dois_api + doi, timeout=10)
                 datacite_json = r.json()
@@ -60,6 +59,9 @@ class MetricTest(FairTest):
         except Exception as e:
             self.warn('Search in DataCite API failed: ' + e.args[0])
 
+        return self.response() 
+        
+
         # self.info('Checking RE3data APIs from DataCite API for metadata about ' + uri)
         # p = {'query': 're3data_id:*'}
         # req = requests.get(datacite_endpoint, params=p, headers=headers)
@@ -85,8 +87,4 @@ class MetricTest(FairTest):
         #         self.failure('Did not find one of the resource URIs ' + ', '.join(resource_uris) + ' in: '+ ', '.join(search_results))
         # else:
         #     self.failure('No resource title found, cannot search in google')
-
-            
-        return self.response() 
-
 

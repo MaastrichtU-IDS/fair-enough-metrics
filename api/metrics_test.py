@@ -15,7 +15,7 @@ from pyld import jsonld
 
 
 class TestInput(BaseModel):
-    subject: str = 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972'
+    subject: str = settings.DEFAULT_SUBJECT
 
 
 class FairTest(BaseModel):
@@ -27,14 +27,12 @@ class FairTest(BaseModel):
     metric_version: str  = '0.1.0'
     metric_path: str
     applies_to_principle: str
-    # metric_path: Optional[str]
-    # applies_to_principle: Optional[str]
-    id: Optional[str]
-
+    id: Optional[str] # URL of the test results
     title: str
     description: str
     author: str = 'https://orcid.org/0000-0002-1501-1082'
     data: Optional[dict]
+    default_subject: str = settings.DEFAULT_SUBJECT
 
     def __init__(self) -> None:
         super().__init__()
@@ -50,6 +48,7 @@ class FairTest(BaseModel):
 
     def response(self) -> list:
         return JSONResponse(self.toJsonld())
+
 
     def toJsonld(self) -> list:
         # To see the object used by the original FAIR metrics:
@@ -205,8 +204,12 @@ class FairTest(BaseModel):
         return g
 
 
+    def doEvaluate(self, input: TestInput):
+        self.subject = input.subject
+        return self.evaluate()
+
     # Function used for the GET YAML call for each Metric Test
-    def evaluate(self, input: TestInput):
+    def evaluate(self):
         return JSONResponse({
             'errorMessage': 'Not implemented'
         })
@@ -215,6 +218,8 @@ class FairTest(BaseModel):
     # https://github.com/LUMC-BioSemantics/RD-FAIRmetrics/blob/main/docs/yaml/RD-R1.yml
     # Function used for the GET YAML call for each Metric Test
     def openapi_yaml(self):
+        print('TOTO')
+        print(settings.CONTACT_URL)
         metric_info = {
           "swagger": "2.0",
           "info": {

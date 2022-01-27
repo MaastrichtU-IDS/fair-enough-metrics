@@ -2,7 +2,7 @@
 
 [![Test Metrics](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml)
 
-[FAIR](https://www.go-fair.org/fair-principles/) service for various FAIR Metrics Tests, using the specifications defined by the [FAIRMetrics](https://github.com/FAIRMetrics/Metrics) working group
+[FAIR](https://www.go-fair.org/fair-principles/) service for various FAIR Metrics Tests, using the specifications defined by the [FAIRMetrics](https://github.com/FAIRMetrics/Metrics) working group.
 
 Deployed publicy at https://metrics.api.fair-enough.semanticscience.org
 
@@ -61,7 +61,7 @@ docker-compose -f docker-compose.prod.yml up -d
 
 > We use a reverse [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) for docker to route the services.
 
-## ✔️ Test the Metrics API
+## ✔️ Test the Metrics Tests API
 
 Add tests in the `./tests/test_metrics.py` file. You just need to add new entries to the JSON file to test different subjects results against the metrics tests:
 
@@ -79,3 +79,10 @@ Run the tests in docker-compose:
 docker-compose -f docker-compose.test.yml up --force-recreate
 ```
 
+## ➕ Create a new FAIR Metrics Tests service
+
+You can easily use this repository to build and publish new FAIR metrics tests. 
+
+1. Fork this repository
+2. Change the API settings in `api/config.py`
+3. Use the existing tests python files in the `metrics` folder to start writing FAIR metrics tests!

@@ -1,24 +1,20 @@
-from api.metrics_test import TestInput, FairTest
+from api.metrics_test import FairTest
 import requests
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDFS, XSD, DC, DCTERMS, VOID, OWL, SKOS, FOAF
 
-class DefaultInput(TestInput):
-    subject = 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972'
-
 
 class MetricTest(FairTest):
-    metric_version = '0.1.0'
     metric_path = 'r1-accessible-license'
     applies_to_principle = 'R1'
-
     title = 'Check accessible Usage License'
     description = """The existence of a license document, for BOTH (independently) the data and its associated metadata, and the ability to retrieve those documents
 Resolve the licenses IRI"""
     author = 'https://orcid.org/0000-0002-1501-1082'
+    metric_version = '0.1.0'
 
-    def evaluate(self, input: DefaultInput):
-        self.subject = input.subject
+
+    def evaluate(self):        
         found_license = False
 
         g = self.getRDF(self.subject)
@@ -27,7 +23,6 @@ Resolve the licenses IRI"""
             return self.response()
         else:
             self.info(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
-
 
         self.info('Checking for license in RDF metadata. To do: DataCite and extruct')
         if 'license' in self.data.keys():
@@ -45,7 +40,6 @@ Resolve the licenses IRI"""
             self.success('Found license in metadata: ' + str(license))
         else:
             self.failure('Could not find license information in metadata')
-
 
         if 'license' in self.data.keys():
             self.info('Check if license is approved by the Open Source Initiative, in the SPDX licenses list')
