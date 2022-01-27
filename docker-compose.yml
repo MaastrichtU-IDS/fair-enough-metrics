@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+
+  api:
+    build: .
+    restart: unless-stopped
+    ports:
+      - 8001:80
+    volumes:
+      - ./api:/app/api
+      - ./metrics:/app/metrics
+    command: /start-reload.sh

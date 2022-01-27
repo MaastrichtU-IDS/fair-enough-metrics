@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        INSTALL_DEV: true
+    volumes:
+      - ./tests:/app/tests
+    command: pytest
+    # command: pytest -s

@@ -1,0 +1,11 @@
+version: "3.3"
+services:
+
+  api:
+    build: .
+    restart: unless-stopped
+    environment:
+      # We deploy in production with https://github.com/nginx-proxy/nginx-proxy
+      - VIRTUAL_HOST=metrics.api.fair-enough.semanticscience.org
+      - LETSENCRYPT_HOST=metrics.api.fair-enough.semanticscience.org
+      - VIRTUAL_PORT=80
