@@ -11,10 +11,9 @@ It can be used with the FAIR evaluation services:
 * https://fair-enough.semanticscience.org
 * https://fairsharing.github.io/FAIR-Evaluator-FrontEnd
 
-> Metrics tests API built [FastAPI](https://fastapi.tiangolo.com/).
-
-
 ## 🧑‍💻 Deploy the API
+
+The API is built with [FastAPI](https://fastapi.tiangolo.com/), making use of python types annotations.
 
 First, clone the repository:
 
@@ -91,4 +90,52 @@ You can easily use this repository to build and publish new FAIR metrics tests.
 2. Change the API settings in `api/config.py`
 3. Use the existing tests python files in the `metrics` folder to start writing FAIR metrics tests!
 4. Start your FAIR metrics tests API with `docker-compose`!
+
+### Use persistent identifiers
+
+We use w3id.org to define persistent identifiers for our services: https://github.com/perma-id/w3id.org
+
+Clone your fork of the w3id.org repository:
+
+```bash
+git clone git@github.com:vemonet/w3id.org.git
+```
+
+Add the main repository to update your fork later:
+
+```bash
+git remote add fork https://github.com/perma-id/w3id.org.gi
+```
+
+Upgrade your fork to the latest version of the main repository:
+
+```bash
+git pull fork master
+```
+
+You just need to add 2 files, you can copy the `fair-enough` folder to get started quickly with our configuration:
+
+* `README.md`: add a short description of what the persistent identifier will be used for, and who are the maintainers (providing their GitHub ID, to make sure the namespace is not changed by unauthorized people in the future). For instance:
+
+```markdown
+# My FAIR metrics tests (fair-metrics-tests)
+
+A namespace for FAIR evaluations metrics tests
+
+## Maintainers
+
+- Vincent Emonet (@vemonet)
+```
+
+* `.htaccess`: define the redirections from w3id.org to your service. For instance:
+
+```htaccess
+Header set Access-Control-Allow-Origin *
+Header set Access-Control-Allow-Headers DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified$
+Options +FollowSymLinks
+RewriteEngine on
+RewriteRule ^(.*)$ https://metrics.api.fair-enough.semanticscience.org/$1 [R=302,L]
+```
+
+
 
