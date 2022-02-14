@@ -9,7 +9,6 @@ services:
         INSTALL_DEV: true
     volumes:
       - ./tests:/app/tests
-      - ./api:/app/api
       - ./metrics:/app/metrics
     # command: pytest
     command: pytest -s

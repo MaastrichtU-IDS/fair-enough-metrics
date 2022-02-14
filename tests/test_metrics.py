@@ -1,6 +1,8 @@
 import pytest
+from fastapi.testclient import TestClient
 import yaml
 import json
+from main import app
 
 eval_list = [
     # a1-access-protocol
@@ -44,13 +46,14 @@ eval_list = [
 ]
 
 
+endpoint = TestClient(app)
 
 metrics_id_to_test = set()
-def test_get_yaml(test_api):
+def test_get_yaml():
     for eval in eval_list:
         metrics_id_to_test.add(eval['metric_id'])
     for metric_id in list(metrics_id_to_test):
-        r = test_api.get(f"/tests/{metric_id}")
+        r = endpoint.get(f"/tests/{metric_id}")
         # print(r.text)
         assert r.status_code == 200
         api_yaml = yaml.load(r.text, Loader=yaml.FullLoader)
@@ -59,10 +62,10 @@ def test_get_yaml(test_api):
         assert api_yaml['info']['x-tests_metric']
 
 
-def test_post_eval(test_api):
+def test_post_eval():
     for eval in eval_list:
-        r = test_api.post(f"/tests/{eval['metric_id']}",
-            data=json.dumps({ 'subject': eval['subject'] }),
+        r = endpoint.post(f"/tests/{eval['metric_id']}",
+            json={ 'subject': eval['subject'] },
             headers={"Accept": "application/json"}
         )
         print(f"Test posting subject <{eval['subject']}> to {eval['metric_id']} (expect {eval['score']})")

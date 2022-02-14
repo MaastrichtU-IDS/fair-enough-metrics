@@ -4,8 +4,6 @@ services:
   api:
     build: .
     restart: unless-stopped
-    # env_file:
-    #   - .env
     environment:
       # We deploy in production with https://github.com/nginx-proxy/nginx-proxy
       - VIRTUAL_HOST=metrics.api.fair-enough.semanticscience.org
