@@ -1,6 +1,9 @@
-from api.metrics_test import FairTest
+from fair_test import FairTest
 import os
 import requests
+from rdflib.namespace import DCTERMS
+
+
 class MetricTest(FairTest):
     metric_path = 'r3-meets-community-standards'
     applies_to_principle = 'R3'
@@ -15,7 +18,14 @@ e.g. the certification service provides a hash of the data, which can be used to
 
     def evaluate(self):
 
-        self.info('Checking RDF metadata')
+        g = self.getRDF(self.subject)
+
+        for s, p, o in g.triples((None, DCTERMS.conformsTo, None)):
+            self.info(f'Found a value for dcterms:conformsTo: {str(o)}')
+            res = requests.get(str(o))
+            conformsToShape = res.text
+            self.info(conformsToShape)
+
         # dct:conformsTo point to URI of JSON schema?
         # People could use it to point to the JSON standard (not ideal)
         # Best: get the schema (e.g. JSON schema)

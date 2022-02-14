@@ -1,4 +1,4 @@
-from api.metrics_test import FairTest
+from fair_test import FairTest
 import json
 import rdflib
 # JSON-LD workaround 

@@ -25,6 +25,22 @@ eval_list = [
         'subject': 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972',
         'score': 1,
     },
+    # f2-machine-readable-metadata
+    {
+        'metric_id': 'f2-machine-readable-metadata',
+        'subject': 'https://doi.org/10.1594/PANGAEA.908011',
+        'score': 1,
+    },
+    {
+        'metric_id': 'f2-machine-readable-metadata',
+        'subject': 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972',
+        'score': 1,
+    },
+    {
+        'metric_id': 'f2-machine-readable-metadata',
+        'subject': 'http://example.com',
+        'score': 0,
+    },
 ]
 
 

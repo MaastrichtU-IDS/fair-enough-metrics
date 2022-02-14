@@ -13,10 +13,11 @@ RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then pip install pytest ; fi"
 COPY . /app
 
 RUN python setup.py install
+# RUN pip install .
 
-ENV APP_MODULE=api.main:app
+ENV APP_MODULE=main:app
 
 # RUN pip install -e .
 ## Not working in this docker image: Error loading ASGI app. Could not import module "api.main".
 
-# CMD ["uvicorn", "api.main:app",  "--host", "0.0.0.0", "--port", "8000"]
+# CMD ["uvicorn", "main:app",  "--host", "0.0.0.0", "--port", "8000"]

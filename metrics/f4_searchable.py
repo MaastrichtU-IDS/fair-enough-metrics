@@ -1,4 +1,4 @@
-from api.metrics_test import FairTest
+from fair_test import FairTest
 import requests
 from urllib.parse import urlparse
 # from googlesearch import search

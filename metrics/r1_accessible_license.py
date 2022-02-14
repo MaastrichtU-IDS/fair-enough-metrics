@@ -1,4 +1,4 @@
-from api.metrics_test import FairTest
+from fair_test import FairTest
 import requests
 from rdflib import Literal, RDF, URIRef
 from rdflib.namespace import RDFS, XSD, DC, DCTERMS, VOID, OWL, SKOS, FOAF

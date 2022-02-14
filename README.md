@@ -45,7 +45,7 @@ pip install -e .
 Start the API locally on http://localhost:8000
 
 ```bash
-uvicorn api.main:app --reload
+uvicorn main:app --reload
 ```
 
 ### 🚀 In production with docker

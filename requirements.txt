@@ -1,9 +1,3 @@
-requests
-fastapi
-uvicorn[standard]
-rdflib>=6.0
-requests
+fair-test
 PyShEx
-PyLD
-extruct
 PyYAML
