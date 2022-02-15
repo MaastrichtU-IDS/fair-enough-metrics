@@ -1,4 +1,4 @@
 PyShEx
 PyYAML
-git+https://github.com/MaastrichtU-IDS/fair-test.git@main#egg=fair_test
+fair-test@git+https://github.com/MaastrichtU-IDS/fair-test@main
 # fair-test

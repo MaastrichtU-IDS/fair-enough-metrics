@@ -6,10 +6,12 @@ FAIR Enough Metrics is an API for various [FAIR](https://www.go-fair.org/fair-pr
 
 This API is deployed publicy at https://metrics.api.fair-enough.semanticscience.org
 
-It can be used with the FAIR evaluation services:
+It can be used with the following FAIR evaluation services:
 
 * https://fair-enough.semanticscience.org
 * https://fairsharing.github.io/FAIR-Evaluator-FrontEnd
+
+FAIR evaluation API built with [`fair-test`](https://github.com/MaastrichtU-IDS/fair-test)
 
 ## 🧑‍💻 Deploy the API
 
