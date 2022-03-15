@@ -13,6 +13,16 @@ It can be used with the following FAIR evaluation services:
 
 FAIR evaluation API built with [`fair-test`](https://github.com/MaastrichtU-IDS/fair-test)
 
+## ➕ Contribute a new FAIR Metrics Tests
+
+You can easily use this repository to develop and publish new FAIR metrics tests. 
+
+ℹ️ You are welcome to submit a pull request to propose to add your tests to our API in production: https://metrics.api.fair-enough.semanticscience.org
+
+1. Fork this repository
+2. Use the existing tests python files in the `metrics` folder to start writing FAIR metrics tests!
+3. Start your FAIR metrics tests API with `docker-compose up`!
+
 ## 🧑‍💻 Deploy the API
 
 The API is built with [FastAPI](https://fastapi.tiangolo.com/), making use of python types annotations.
@@ -86,7 +96,7 @@ docker-compose -f docker-compose.test.yml up --force-recreate
 
 ## ➕ Create a new FAIR Metrics Tests service
 
-You can easily use this repository to build and publish new FAIR metrics tests. 
+You can easily use this repository to develop and publish new FAIR metrics tests. 
 
 1. Fork this repository
 2. Change the API settings in `api/config.py`
