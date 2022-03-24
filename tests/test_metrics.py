@@ -48,8 +48,10 @@ eval_list = [
 
 endpoint = TestClient(app)
 
+
 metrics_id_to_test = set()
 def test_get_yaml():
+    # eval_list = app.get_metrics_tests_tests()
     for eval in eval_list:
         metrics_id_to_test.add(eval['metric_id'])
     for metric_id in list(metrics_id_to_test):
@@ -63,6 +65,7 @@ def test_get_yaml():
 
 
 def test_post_eval():
+    # eval_list = app.get_metrics_tests_tests()
     for eval in eval_list:
         r = endpoint.post(f"/tests/{eval['metric_id']}",
             json={ 'subject': eval['subject'] },
