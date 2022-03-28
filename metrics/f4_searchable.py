@@ -15,6 +15,7 @@ class MetricTest(FairTest):
     author = 'https://orcid.org/0000-0002-1501-1082'
     test_test={
         'https://doi.org/10.1594/PANGAEA.908011': 1,
+        'Wrong entry': 0,
     }
     
 
