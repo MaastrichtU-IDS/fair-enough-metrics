@@ -1,7 +1,8 @@
 from fair_test import FairTest, FairTestEvaluation
 import requests
 from urllib.parse import urlparse
-# from googlesearch import search
+import os
+from googlesearch import search
 # from fastapi import APIRouter, Body, Depends
 # from fastapi_utils.cbv import cbv
 
@@ -73,21 +74,30 @@ class MetricTest(FairTest):
 
 
         ## Check google search using the resource title and its alternative URIs
-        ## Might be against Google TOS
-        # if 'title' in eval.data.keys():
-        #     title = eval.data['title']
+        if 'title' in eval.data.keys() and len(eval.data['title']) > 0:
+            eval.info('Running Bing search for: ' + title)
+            title = eval.data['title'][0]
             
-        #     resource_uris = eval.data['alternative_uris']
+            resource_uris = eval.data['alternative_uris']
 
-        #     eval.info('Running Google search for: ' + title)
-        #     search_results = list(search(title, tld="co.in", num=20, stop=20, pause=1))
-        #     print(search_results)
+            # Bing requires an API key
+            # bing_apikey = os.getenv('APIKEY_BING_SEARCH')
+            # headers = {"Ocp-Apim-Subscription-Key": bing_apikey}
+            # params = {"q": title, "textDecorations": True, "textFormat": "HTML"}
+            # response = requests.get(search_url, headers=headers, params=params)
+            # response.raise_for_status()
+            # search_results = response.json()
 
-        #     found_uris = list(set(resource_uris).intersection(search_results))
-        #     # if any(i in resource_uris for i in search_results):
-        #     if found_uris:
-        #         eval.success('Found the resource URI ' + ', '.join(found_uris) + ' when searching on Google for ' + title)
-        #     else:
-        #         eval.failure('Did not find one of the resource URIs ' + ', '.join(resource_uris) + ' in: '+ ', '.join(search_results))
-        # else:
-        #     eval.failure('No resource title found, cannot search in google')
+
+            eval.info('Running search in popular Search Engines for: ' + title)
+            search_results = list(search(title, tld="co.in", num=20, stop=20, pause=1))
+            print(search_results)
+
+            found_uris = list(set(resource_uris).intersection(search_results))
+            # if any(i in resource_uris for i in search_results):
+            if found_uris:
+                eval.success('Found the resource URI ' + ', '.join(found_uris) + ' when searching in popular Search Engines for ' + title)
+            else:
+                eval.failure('Did not find one of the resource URIs ' + ', '.join(resource_uris) + ' in: '+ ', '.join(search_results))
+        else:
+            eval.failure('No resource title found, cannot search in google')

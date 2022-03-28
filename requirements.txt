@@ -1,4 +1,5 @@
 PyShEx
 PyYAML
+googlesearch-python
 fair-test@git+https://github.com/MaastrichtU-IDS/fair-test@main
 # fair-test>=0.0.4
