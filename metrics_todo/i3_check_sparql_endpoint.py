@@ -1,4 +1,4 @@
-from fair_test import FairTest
+from fair_test import FairTest, FairTestEvaluation
 import os
 
 
@@ -12,9 +12,9 @@ For a collection on evaluation knowledge graphs
 Reuse https://github.com/MaastrichtU-IDS/d2s-cli/blob/master/d2s/generate_metadata.py"""
     
 
-    def evaluate(self):
+    def evaluate(self, eval: FairTestEvaluation):
         
-        self.info('Checking DMP')
+        eval.info('Checking DMP')
             
-        return self.response()
+        return eval.response()
 

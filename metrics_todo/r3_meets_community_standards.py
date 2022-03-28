@@ -1,4 +1,4 @@
-from fair_test import FairTest
+from fair_test import FairTest, FairTestEvaluation
 import os
 import requests
 from rdflib.namespace import DCTERMS
@@ -16,15 +16,15 @@ e.g. the certification service provides a hash of the data, which can be used to
     metric_version = '0.1.0'
     
 
-    def evaluate(self):
+    def evaluate(self, eval: FairTestEvaluation):
 
-        g = self.retrieve_rdf(self.subject)
+        g = eval.retrieve_rdf(eval.subject)
 
         for s, p, o in g.triples((None, DCTERMS.conformsTo, None)):
-            self.info(f'Found a value for dcterms:conformsTo: {str(o)}')
+            eval.info(f'Found a value for dcterms:conformsTo: {str(o)}')
             res = requests.get(str(o))
             conformsToShape = res.text
-            self.info(conformsToShape)
+            eval.info(conformsToShape)
 
         # dct:conformsTo point to URI of JSON schema?
         # People could use it to point to the JSON standard (not ideal)
@@ -32,5 +32,5 @@ e.g. the certification service provides a hash of the data, which can be used to
 
         # Check also: rdfs:isDefinedBy, rdfs:seeAlso?
 
-        return self.response()
+        return eval.response()
 

@@ -1,4 +1,4 @@
-from fair_test import FairTest
+from fair_test import FairTest, FairTestEvaluation
 import os
 import requests
 
@@ -15,10 +15,10 @@ class MetricTest(FairTest):
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
 
-    def evaluate(self):
+    def evaluate(self, eval: FairTestEvaluation):
         
-        self.info('Checking RDF metadata for prov and pav metadata')
+        eval.info('Checking RDF metadata for prov and pav metadata')
         # Author, contributor, creationDate
 
-        return self.response()
+        return eval.response()
 

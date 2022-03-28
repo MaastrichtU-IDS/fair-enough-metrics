@@ -1,4 +1,4 @@
-from fair_test import FairTest
+from fair_test import FairTest, FairTestEvaluation
 import os
 import requests
 
@@ -18,10 +18,10 @@ discoverable, even in the absence of the data, because it contains an
 explicit reference to the IRI of the data"""
     
 
-    def evaluate(self):
+    def evaluate(self, eval: FairTestEvaluation):
 
-        self.info('Checking for metadata in long term repository?')
+        eval.info('Checking for metadata in long term repository?')
 
             
-        return self.response()
+        return eval.response()
 

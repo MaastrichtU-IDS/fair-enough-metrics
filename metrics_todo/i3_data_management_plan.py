@@ -1,4 +1,4 @@
-from fair_test import FairTest
+from fair_test import FairTest, FairTestEvaluation
 import os
 
 
@@ -13,9 +13,9 @@ https://github.com/raffaelfoidl/maDMP-evaluation/tree/v1.2/queries"""
     metric_version = '0.1.0'
 
 
-    def evaluate(self):
+    def evaluate(self, eval: FairTestEvaluation):
         
-        self.info('Checking DMP')
+        eval.info('Checking DMP')
             
-        return self.response()
+        return eval.response()
 

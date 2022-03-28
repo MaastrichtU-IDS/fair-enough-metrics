@@ -1,4 +1,4 @@
-from fair_test import FairTest
+from fair_test import FairTest, FairTestEvaluation
 import os
 
 
@@ -13,9 +13,9 @@ The linksets must have qualified references: at least one of the links must be i
     metric_version = '0.1.0'
     
 
-    def evaluate(self):
+    def evaluate(self, eval: FairTestEvaluation):
         
-        self.info('Checking RDF metadata vocabularies')
+        eval.info('Checking RDF metadata vocabularies')
             
-        return self.response()
+        return eval.response()
 
