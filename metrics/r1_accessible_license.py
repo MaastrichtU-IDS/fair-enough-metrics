@@ -20,7 +20,7 @@ Resolve the licenses IRI"""
 
 
     def evaluate(self, eval: FairTestEvaluation):        
-        found_license = False
+        # found_license = False
         # Issue with extracting license from some URIs, such as https://www.uniprot.org/uniprot/P51587
         # Getting a URI that is not really the license as output
         g = eval.retrieve_rdf(eval.subject)
@@ -43,17 +43,17 @@ Resolve the licenses IRI"""
             eval.success(f"Found licenses: {' ,'.join(licenses)}")
             eval.data['license'] = licenses
         else:
-            eval.failure("Could not find data for the metadata. Searched for the following predicates: " + ', '.join(license_uris))
+            eval.failure(f"Could not find a license in the metadata. Searched for the following predicates: {str(license_preds)}")
 
         if 'license' in eval.data.keys():
-            for license in eval.data['license']:
+            for license_found in eval.data['license']:
                 eval.info(f"Check if license {eval.data['license']} is approved by the Open Source Initiative, in the SPDX licenses list")
                 # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L229
                 spdx_licenses_url = 'https://raw.github.com/spdx/license-list-data/master/json/licenses.json'
                 spdx_licenses = requests.get(spdx_licenses_url).json()['licenses']
-                for license in spdx_licenses:
-                    if eval.data['license'] in license['seeAlso']:
-                        if license['isOsiApproved'] == True:
+                for open_license in spdx_licenses:
+                    if license_found in open_license['seeAlso']:
+                        if open_license['isOsiApproved'] == True:
                             eval.bonus('License approved by the Open Source Initiative (' + str(eval.data['license']) + ')')
 
         return eval.response()
