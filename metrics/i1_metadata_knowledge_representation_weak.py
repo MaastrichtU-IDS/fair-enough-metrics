@@ -1,12 +1,7 @@
 from fair_test import FairTest, FairTestEvaluation
 import json
-import rdflib
 import requests
 import yaml
-# JSON-LD workaround 
-# from pyld import jsonld
-# from rdflib import ConjunctiveGraph
-# from rdflib.serializer import Serializer
 
 
 class MetricTest(FairTest):

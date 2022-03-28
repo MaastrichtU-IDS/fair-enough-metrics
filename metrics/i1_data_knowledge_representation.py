@@ -1,10 +1,4 @@
 from fair_test import FairTest, FairTestEvaluation
-import json
-import rdflib
-# JSON-LD workaround 
-# from pyld import jsonld
-# from rdflib import ConjunctiveGraph
-# from rdflib.serializer import Serializer
 
 
 class MetricTest(FairTest):
@@ -38,6 +32,6 @@ Any form of ontologically-grounded linked data will pass this test."""
             if len(data_g) > 1:
                 eval.success(f'Successfully retrieved RDF for the data URI: {value}. It contains {str(len(g))} triples')
             else:
-                eval.warn(f"Could not find RDF at the data URI: {value}")
+                eval.failure(f"Could not find RDF at the data URI: {value}")
 
         return eval.response()
