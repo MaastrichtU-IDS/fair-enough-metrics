@@ -56,13 +56,20 @@ class MetricTest(FairTest):
 
 
         self.info('Checking if machine readable data (e.g. RDF, JSON-LD) can be retrieved using content-negotiation at ' + self.subject)
-        g = self.getRDF(self.subject)
+        g = self.retrieve_rdf(self.subject)
         if len(g) == 0:
             self.failure('No RDF found at the subject URL provided.')
             return self.response()
         else:
             self.success(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
             return self.response()
+
+
+    test_test={
+        'http://doi.org/10.1594/PANGAEA.908011': 1,
+        'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
+        'https://github.com/MaastrichtU-IDS/fair-test': 0,
+    }
 
 
         # found_content_negotiation = False
@@ -99,7 +106,7 @@ class MetricTest(FairTest):
         #     self.success('Found metadata in ' + ', '.join(self.data['content_negotiation'].keys()) + ' format using content-negotiation')
         #     # Parse RDF metadata from content negotiation
         #     for mime_type, rdf_data in self.data['content_negotiation'].items():
-        #         g = self.parseRDF(rdf_data, mime_type, log_msg='content negotiation RDF')
+        #         g = self.parse_rdf(rdf_data, mime_type, log_msg='content negotiation RDF')
         #         break # Only parse the first RDF metadata file entry
         # else:
         #     self.warn('Could not find metadata using content-negotiation, checking metadata embedded in HTML with extruct')
@@ -132,7 +139,5 @@ class MetricTest(FairTest):
         #         self.warn('Could not find embedded microdata or JSON in the HTML at ' + uri + ' using extruct')
         # except Exception as e:
         #     self.warn('Error when running extruct on ' + uri + '. Getting: ' + str(e.args[0]))
-
-
-        return self.response()
+        # return self.response()
 

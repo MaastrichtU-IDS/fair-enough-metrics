@@ -20,7 +20,7 @@ Any form of RDF will pass this test"""
 
     def evaluate(self):        
         # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L190
-        g = self.getRDF(self.subject)
+        g = self.retrieve_rdf(self.subject)
         if len(g) > 1:
             self.success('Successfully parsed the RDF metadata retrieved with content negotiation. It contains ' + str(len(g)) + ' triples')
 
@@ -40,3 +40,6 @@ Any form of RDF will pass this test"""
 
         return self.response()
 
+    test_test={
+        'https://doi.org/10.1594/PANGAEA.908011': 1,
+    }

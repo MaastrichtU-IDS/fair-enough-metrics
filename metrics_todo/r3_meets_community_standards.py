@@ -18,7 +18,7 @@ e.g. the certification service provides a hash of the data, which can be used to
 
     def evaluate(self):
 
-        g = self.getRDF(self.subject)
+        g = self.retrieve_rdf(self.subject)
 
         for s, p, o in g.triples((None, DCTERMS.conformsTo, None)):
             self.info(f'Found a value for dcterms:conformsTo: {str(o)}')

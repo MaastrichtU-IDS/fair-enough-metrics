@@ -19,26 +19,27 @@ Any form of ontologically-grounded linked data will pass this test."""
 
 
     def evaluate(self):        
-        g = self.getRDF(self.subject)
+        g = self.retrieve_rdf(self.subject)
         if len(g) > 1:
             self.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
 
-        data_props = [
-            "http://www.w3.org/ns/ldp#contains", "http://xmlns.com/foaf/0.1/primaryTopic", 
-            "https://schema.org/about", "https://schema.org/mainEntity", "https://schema.org/codeRepository",
-            "https://schema.org/distribution", "https://www.w3.org/ns/dcat#distribution", 
-            "http://semanticscience.org/resource/SIO_000332", "http://semanticscience.org/resource/is-about", 
-            "https://purl.obolibrary.org/obo/IAO_0000136"
-        ]
+        # Retrieve URI of the data in the RDF metadata
+        data_res = self.extract_data_uri(g)
+        if len(data_res) < 1:
+            self.failure("Could not find data URI in the metadata.")
 
-        data_res = self.getProps(data_props)
-        if len(data_res.keys() < 1):
-            self.failure("Could not find data for the metadata. Searched for the following predicates: " + ', '.join(data_props))
-
-        for pred, value in data_res.items():
-            data_g = self.getRDF(value)
+        # Check if RDF data can be found at the data URI
+        for value in data_res:
+            data_g = self.retrieve_rdf(value)
             if len(data_g) > 1:
-                self.success(f'Successfully parsed the RDF for the {pred} data at {value}. It contains {str(len(g))} triples')
+                self.success(f'Successfully retrieved RDF for the data URI: {value}. It contains {str(len(g))} triples')
+            else:
+                self.warn(f"Could not find RDF at the data URI: {value}")
 
         return self.response()
 
+
+    test_test={
+        'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
+        'https://doi.org/10.1594/PANGAEA.908011': 0,
+    }

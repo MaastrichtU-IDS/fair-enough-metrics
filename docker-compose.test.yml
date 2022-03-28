@@ -11,4 +11,6 @@ services:
       - ./tests:/app/tests
       - ./metrics:/app/metrics
     # command: pytest
+    # environment:
+    #   - DEBUG=true
     command: pytest -s

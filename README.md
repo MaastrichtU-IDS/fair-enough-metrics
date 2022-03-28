@@ -15,13 +15,14 @@ FAIR evaluation API built with [`fair-test`](https://github.com/MaastrichtU-IDS/
 
 ## ➕ Contribute a new FAIR Metrics Tests
 
-You can easily use this repository to develop and publish new FAIR metrics tests. 
-
 ℹ️ You are welcome to submit a pull request to propose to add your tests to our API in production: https://metrics.api.fair-enough.semanticscience.org
 
 1. Fork this repository
-2. Use the existing tests python files in the `metrics` folder to start writing FAIR metrics tests!
-3. Start your FAIR metrics tests API with `docker-compose up`!
+1. Clone your forked repository
+2. Copy duplicate an existing test file in the `metrics` folder,  and modify it to define your FAIR metrics tests!
+3. Start your FAIR metrics tests API with `docker-compose up` to test if your FAIR metric test works as expected
+3. Send us a pull request to integrate your test to our API at https://metrics.api.fair-enough.semanticscience.org
+3. Once your test is published, register it in existing FAIR evaluation services.
 
 ## 🧑‍💻 Deploy the API
 

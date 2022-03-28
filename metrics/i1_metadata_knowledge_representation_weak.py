@@ -10,7 +10,7 @@ import yaml
 
 
 class MetricTest(FairTest):
-    metric_path = 'i1-knowledge-representation-weak'
+    metric_path = 'i1-metadata-knowledge-representation-weak'
     applies_to_principle = 'I1'
     title = 'Metadata uses a formal knowledge representation language (weak)'
     description = """Maturity Indicator to test if the metadata uses a formal language broadly applicable for knowledge representation.
@@ -21,7 +21,7 @@ This particular test takes a broad view of what defines a 'knowledge representat
 
     def evaluate(self):        
         # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L190
-        g = self.getRDF(self.subject)
+        g = self.retrieve_rdf(self.subject)
         if len(g) > 1:
             self.success('Successfully parsed the RDF metadata retrieved with content negotiation. It contains ' + str(len(g)) + ' triples')
         else:

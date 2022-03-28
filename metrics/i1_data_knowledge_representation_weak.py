@@ -20,41 +20,41 @@ This particular test takes a broad view of what defines a 'knowledge representat
 
 
     def evaluate(self):        
-        g = self.getRDF(self.subject)
+        g = self.retrieve_rdf(self.subject)
         if len(g) > 1:
             self.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
 
-        data_props = [
-            "http://www.w3.org/ns/ldp#contains", "http://xmlns.com/foaf/0.1/primaryTopic", 
-            "https://schema.org/about", "https://schema.org/mainEntity", "https://schema.org/codeRepository",
-            "https://schema.org/distribution", "https://www.w3.org/ns/dcat#distribution", 
-            "http://semanticscience.org/resource/SIO_000332", "http://semanticscience.org/resource/is-about", 
-            "https://purl.obolibrary.org/obo/IAO_0000136"
-        ]
+        # Retrieve URI of the data in the RDF metadata
+        data_res = self.extract_data_uri(g)
+        if len(data_res) < 1:
+            self.failure("Could not find data URI in the metadata.")
 
-        data_res = self.getProps(data_props)
-        if len(data_res.keys() < 1):
-            self.failure("Could not find data for the metadata. Searched for the following predicates: " + ', '.join(data_props))
-
-        for pred, value in data_res.items():
-            data_g = self.getRDF(value)
+        # Check if structured data can be found at the data URI
+        for value in data_res:
+            self.info(f'Found data URI: {value}. Try retrieving RDF')
+            data_g = self.retrieve_rdf(value)
             if len(data_g) > 1:
-                self.info(f'Successfully parsed the RDF for the {pred} data at {value}. It contains {str(len(g))} triples')
+                self.info(f'Successfully retrieved RDF for the data URI: {value}. It contains {str(len(g))} triples')
+                self.success(f'Successfully found and parsed RDF data for {value}')
 
             else:
-                self.warn(f'No RDF data found for {pred}, searching for JSON')
+                self.warn(f'No RDF data found for {value}, searching for JSON')
                 try:
                     r = requests.get(value, headers={'accept': 'application/json'})
                     metadata = r.json()
-                    self.success(f'Successfully found and parsed JSON data for {pred}: ' + json.dumps(metadata))
+                    self.success(f'Successfully found and parsed JSON data for {value}: ' + json.dumps(metadata))
                 except:
-                    self.warn(f'No JSON metadata found for {pred}, searching for YAML')
+                    self.warn(f'No JSON metadata found for {value}, searching for YAML')
                     try:
                         r = requests.get(value, headers={'accept': 'application/json'})
                         metadata = yaml.load(r.text, Loader=yaml.FullLoader)
-                        self.success(f'Successfully found and parsed YAML data for {pred}: ' + json.dumps(r))
+                        self.success(f'Successfully found and parsed YAML data for {value}: ' + json.dumps(r))
                     except:
-                        self.failure(f'No YAML metadata found for {pred}')
+                        self.failure(f'No YAML metadata found for {value}')
             
         return self.response()
 
+    test_test={
+        'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
+        'https://doi.org/10.1594/PANGAEA.908011': 0,
+    }
