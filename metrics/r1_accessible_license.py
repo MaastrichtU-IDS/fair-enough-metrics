@@ -31,14 +31,9 @@ Resolve the licenses IRI"""
             URIRef('https://schema.org/license'), 
             URIRef('http://www.w3.org/1999/xhtml/vocab#license')
         ]
-        self.info('Checking for license in RDF metadata.')
-        # TODO: use self.data['alternative_uris']
-        # Get license from RDF metadata
-        # self.info(f'Check LICENSE PROPS {license_uris}')
-        data_res = self.extract_prop(g, license_preds, self.data['alternative_uris'])
 
-        description_preds = [ DCTERMS.description, URIRef('http://schema.org/description')]
-        licenses = self.extract_prop(g, description_preds, self.data['alternative_uris'])
+        self.info(f"Checking for license in RDF metadata using predicates": {license_preds}")
+        licenses = self.extract_prop(g, license_preds, self.data['alternative_uris'])
         if len(licenses) > 0:
             self.success(f"Found licenses: {' ,'.join(licenses)}")
             self.data['license'] = licenses
