@@ -30,11 +30,11 @@ Resolve the licenses IRI"""
         else:
             eval.info(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
 
-        # TODO: check DataCite too
+        # TODO: check DataCite too?
         license_preds = [
-            DCTERMS.license, 
-            URIRef('https://schema.org/license'), 
-            URIRef('http://www.w3.org/1999/xhtml/vocab#license')
+            'http://purl.org/dc/terms/license',
+            'https://schema.org/license', 
+            'http://www.w3.org/1999/xhtml/vocab#license',
         ]
 
         eval.info(f"Checking for license in RDF metadata using predicates: {str(license_preds)}")
