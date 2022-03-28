@@ -12,15 +12,31 @@ class MetricTest(FairTest):
 - Extract metadata from the HTML landing page using extruct"""
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
+    test_test={
+        'https://doi.org/10.1594/PANGAEA.908011': 1,
+        'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
+        'https://doi.org/10.1186/2041-1480-5-14': 1,
+        'https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge': 1,
+        'https://doi.org/10.5281/zenodo.5541440': 1,
+        'https://www.proteinatlas.org/ENSG00000084110-HAL': 1,
+        'https://doi.org/10.34894/DR3I2A': 1,
+        'https://doi.org/10.1045/november2015-vandesompel': 1,
+        'https://doi.org/10.1016/j.jbi.2008.03.004': 1,
+        'https://doi.org/10.25504/FAIRsharing.jptb1m': 1,
+        'https://doi.org/10.1038/sdata.2016.18': 1,
+        'https://doi.org/10.1016/J.JBI.2019.103292': 1,
+        'https://github.com/MaastrichtU-IDS/fair-test': 0,
+        # 'https://data.rivm.nl/meta/srv/eng/rdf.metadata.get?uuid=1c0fcd57-1102-4620-9cfa-441e93ea5604&approved=true': 1,
+    }
 
-    # TODO: implement metadata extraction with:
-    # Apache Tika for PDF/pptx
+    # TODO: implement metadata extraction with more tools?
+    # Apache Tika for PDF/pptx?
     # Kellog's Distiller? http://rdf.greggkellogg.net/distiller
     # https://github.com/FAIRMetrics/Metrics/blob/master/MetricsEvaluatorCode/Ruby/metrictests/fair_metrics_utilities.rb
 
     def evaluate(self):
         # Check if URL resolve and if redirection
-        r = requests.head(self.subject)
+        # r = requests.head(self.subject)
         r = requests.get(self.subject)
         r.raise_for_status()  # Raises a HTTPError if the status is 4xx, 5xxx
         self.info('Successfully resolved ' + self.subject)
@@ -63,13 +79,6 @@ class MetricTest(FairTest):
         else:
             self.success(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
             return self.response()
-
-
-    test_test={
-        'http://doi.org/10.1594/PANGAEA.908011': 1,
-        'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
-        'https://github.com/MaastrichtU-IDS/fair-test': 0,
-    }
 
 
         # found_content_negotiation = False
