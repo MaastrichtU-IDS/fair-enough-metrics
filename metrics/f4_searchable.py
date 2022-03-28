@@ -31,7 +31,7 @@ class MetricTest(FairTest):
         if result.scheme and result.netloc:
             if result.netloc == 'doi.org':
                 doi = result.path[1:]
-                eval.success('The subject resource URI ' + eval.subject + ' is a DOI')
+                eval.info('The subject resource URI ' + eval.subject + ' is a DOI')
         else:
             eval.warn('Could not validate the given resource URI ' + eval.subject + ' is a URL')    
 
@@ -62,16 +62,12 @@ class MetricTest(FairTest):
             else:
                 eval.warn('DOI could not be found, skipping search in DataCite API')
         except Exception as e:
-            eval.warn('Search in DataCite API failed: ' + e.args[0])
-
-        return eval.response() 
-        
+            eval.warn('Search in DataCite API failed: ' + e.args[0])        
 
         # eval.info('Checking RE3data APIs from DataCite API for metadata about ' + uri)
         # p = {'query': 're3data_id:*'}
         # req = requests.get(datacite_endpoint, params=p, headers=headers)
         # print(req.json())
-
 
         ## Check google search using the resource title and its alternative URIs
         if 'title' in eval.data.keys() and len(eval.data['title']) > 0:
@@ -79,15 +75,6 @@ class MetricTest(FairTest):
             title = eval.data['title'][0]
             
             resource_uris = eval.data['alternative_uris']
-
-            # Bing requires an API key
-            # bing_apikey = os.getenv('APIKEY_BING_SEARCH')
-            # headers = {"Ocp-Apim-Subscription-Key": bing_apikey}
-            # params = {"q": title, "textDecorations": True, "textFormat": "HTML"}
-            # response = requests.get(search_url, headers=headers, params=params)
-            # response.raise_for_status()
-            # search_results = response.json()
-
 
             eval.info('Running search in popular Search Engines for: ' + title)
             search_results = list(search(title, tld="co.in", num=20, stop=20, pause=1))
@@ -101,3 +88,13 @@ class MetricTest(FairTest):
                 eval.failure('Did not find one of the resource URIs ' + ', '.join(resource_uris) + ' in: '+ ', '.join(search_results))
         else:
             eval.failure('No resource title found, cannot search in google')
+
+        return eval.response()
+
+    # Bing requires an API key
+    # bing_apikey = os.getenv('APIKEY_BING_SEARCH')
+    # headers = {"Ocp-Apim-Subscription-Key": bing_apikey}
+    # params = {"q": title, "textDecorations": True, "textFormat": "HTML"}
+    # response = requests.get(search_url, headers=headers, params=params)
+    # response.raise_for_status()
+    # search_results = response.json()
