@@ -32,7 +32,7 @@ Resolve the licenses IRI"""
             URIRef('http://www.w3.org/1999/xhtml/vocab#license')
         ]
 
-        self.info(f"Checking for license in RDF metadata using predicates": {license_preds}")
+        self.info(f"Checking for license in RDF metadata using predicates: {str(license_preds)}")
         licenses = self.extract_prop(g, license_preds, self.data['alternative_uris'])
         if len(licenses) > 0:
             self.success(f"Found licenses: {' ,'.join(licenses)}")
