@@ -13,6 +13,9 @@ class MetricTest(FairTest):
     title = 'The resource is indexed in a searchable resource'
     description = """Search for existing metadata about the resource URI in data repositories, such as DataCite, RE3data."""
     author = 'https://orcid.org/0000-0002-1501-1082'
+    test_test={
+        'https://doi.org/10.1594/PANGAEA.908011': 1,
+    }
     
 
     def evaluate(self, eval: FairTestEvaluation):
@@ -87,8 +90,3 @@ class MetricTest(FairTest):
         #         eval.failure('Did not find one of the resource URIs ' + ', '.join(resource_uris) + ' in: '+ ', '.join(search_results))
         # else:
         #     eval.failure('No resource title found, cannot search in google')
-
-
-    test_test={
-        'https://doi.org/10.1594/PANGAEA.908011': 1,
-    }
