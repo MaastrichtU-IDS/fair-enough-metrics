@@ -1,8 +1,8 @@
 from fair_test import FairTest, FairTestEvaluation
 import requests
 from urllib.parse import urlparse
-import os
-from googlesearch import search
+import json
+from duckduckgo_search import ddg
 # from fastapi import APIRouter, Body, Depends
 # from fastapi_utils.cbv import cbv
 
@@ -54,7 +54,7 @@ class MetricTest(FairTest):
                         eval.data['datacite']['title'] = datacite_data['titles'][0]['title']
                         print(eval.data['datacite']['title'])
                         if not 'title' in eval.data:
-                            eval.data['title'] = eval.data['datacite']['title']
+                            eval.data['title'] = [eval.data['datacite']['title']]
 
                     if 'descriptions' in datacite_data.keys():
                         eval.data['datacite']['description'] = datacite_data['descriptions'][0]['description']
@@ -69,25 +69,38 @@ class MetricTest(FairTest):
         # req = requests.get(datacite_endpoint, params=p, headers=headers)
         # print(req.json())
 
-        ## Check google search using the resource title and its alternative URIs
+        ## Check DuckDuckGo search using the resource title and its alternative URIs
         if 'title' in eval.data.keys() and len(eval.data['title']) > 0:
-            eval.info('Running Bing search for: ' + title)
             title = eval.data['title'][0]
-            
+
+            try:
+                # Get redirect URIs as alternative URIs
+                r = requests.get(eval.subject)
+                r.raise_for_status()  # Raises a HTTPError if the status is 4xx, 5xxx
+                eval.success('Successfully resolved ' + eval.subject)
+                if r.history:
+                    eval.info("Request was redirected to " + r.url + '.')
+                    eval.data['alternative_uris'].append(r.url)
+            except:
+                eval.warn(f'Could not resolve {eval.subject}')
+
             resource_uris = eval.data['alternative_uris']
+            eval.info('Running search in DuckDuckGo for: ' + title)
+            # ddg(keywords, region='wt-wt', safesearch='Moderate', time=None, max_results=50):
+            search_results = ddg(title, region='wt-wt', max_results=80)
+            # search_results = list(search(title, tld="co.in", num=20, stop=20, pause=1))
+            print(json.dumps(search_results, indent=2))
+            uris_found = [s['href'] for s in search_results] 
 
-            eval.info('Running search in popular Search Engines for: ' + title)
-            search_results = list(search(title, tld="co.in", num=20, stop=20, pause=1))
-            print(search_results)
-
-            found_uris = list(set(resource_uris).intersection(search_results))
+            matching_uris = list(set(resource_uris).intersection(uris_found))
             # if any(i in resource_uris for i in search_results):
-            if found_uris:
-                eval.success('Found the resource URI ' + ', '.join(found_uris) + ' when searching in popular Search Engines for ' + title)
+            if matching_uris:
+                eval.success('Found the resource URI ' + ', '.join(matching_uris) + ' when searching in popular Search Engines for ' + title)
             else:
-                eval.failure('Did not find one of the resource URIs ' + ', '.join(resource_uris) + ' in: '+ ', '.join(search_results))
+                eval.warn('Did not find one of the resource URIs ' + ', '.join(resource_uris) + ' in the URIs found: '+ ', '.join(uris_found))
+                eval.warn(f"Resource not found when searching in DuckDuckGo for {title}")
         else:
-            eval.failure('No resource title found, cannot search in google')
+            eval.warn('No resource title found, cannot search in Search Engine')
 
         return eval.response()
 
