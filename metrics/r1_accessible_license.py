@@ -30,6 +30,23 @@ Resolve the licenses IRI"""
         else:
             eval.info(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
 
+
+        eval.info(f"Checking RDF metadata to find links to all the alternative identifiers: <{'>, <'.join(eval.data['alternative_uris'])}>")
+        subject_uri = None
+        for alt_uri in eval.data['alternative_uris']:
+            uri_ref = URIRef(alt_uri)
+            resource_properties = {}
+            resource_linked_to = {}
+            eval.data['identifier_in_metadata'] = {}
+            # Search with the subject URI as triple subject
+            for p, o in g.predicate_objects(uri_ref):
+                subject_uri = uri_ref
+            if not subject_uri:
+                # Search with the subject URI as triple object
+                for s, p in g.subject_predicates(uri_ref):
+                    subject_uri = s
+
+
         # TODO: check DataCite too?
         license_preds = [
             'http://purl.org/dc/terms/license',
@@ -38,7 +55,7 @@ Resolve the licenses IRI"""
         ]
 
         eval.info(f"Checking for license in RDF metadata using predicates: {str(license_preds)}")
-        licenses = eval.extract_prop(g, license_preds, eval.data['alternative_uris'])
+        licenses = eval.extract_prop(g, license_preds, subject_uri)
         if len(licenses) > 0:
             eval.success(f"Found licenses: {' ,'.join(licenses)}")
             eval.data['license'] = licenses

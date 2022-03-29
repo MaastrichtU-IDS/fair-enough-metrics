@@ -73,42 +73,47 @@ If found, retrieve informations about this resource (title, description, date cr
                 subject_uri = s
             eval.data['identifier_in_metadata']['linked_to'] = resource_linked_to
 
-            # eval.data['identifier_in_metadata'] = {
-            #     'properties': resource_properties,
-            #     'linked_to': resource_linked_to,
-            # }
-            # print('identifier_in_metadata')
-            # print(eval.data['identifier_in_metadata'])
+        # TODO: use SPARQL queries to query the resource URI, rdflib does not support well blank nodes
+        print(subject_uri)
+        if subject_uri:
+            eval.info(f"Found the subject identifier in the metadata: {str(subject_uri)}")
+        else:
+            eval.warn(f"Could not find the subject identifier in the metadata: {str(subject_uri)}")
+        # eval.data['identifier_in_metadata'] = {
+        #     'properties': resource_properties,
+        #     'linked_to': resource_linked_to,
+        # }
+        # print('identifier_in_metadata')
+        # print(eval.data['identifier_in_metadata'])
 
-            # Try to extract some metadata from the parsed RDF
-            title_preds = [ DC.title, DCTERMS.title, RDFS.label, URIRef('http://schema.org/name')]
-            # titles = eval.extract_prop(g, title_preds, eval.data['alternative_uris'])
-            titles = eval.extract_prop(g, title_preds, subject_uri)
-            if len(titles) > 0:
-                eval.log(f"Found titles: {' ,'.join(titles)}")
-                eval.data['title'] = titles
-
-
-            description_preds = [ DCTERMS.description, URIRef('http://schema.org/description')]
-            descriptions = eval.extract_prop(g, description_preds, subject_uri)
-            if len(descriptions) > 0:
-                eval.log(f"Found descriptions: {' ,'.join(descriptions)}")
-                eval.data['description'] = descriptions
-
-            date_created_preds = [ DCTERMS.created, URIRef('http://schema.org/dateCreated'), URIRef('http://schema.org/datePublished')]
-            dates = eval.extract_prop(g, date_created_preds, subject_uri)
-            if len(dates) > 0:
-                eval.log(f"Found created date: {' ,'.join(dates)}")
-                eval.data['created'] = dates
+        # Try to extract some metadata from the parsed RDF
+        title_preds = [ DC.title, DCTERMS.title, RDFS.label, URIRef('http://schema.org/name'), URIRef('https://schema.org/name')]
+        # titles = eval.extract_prop(g, title_preds, eval.data['alternative_uris'])
+        titles = eval.extract_prop(g, title_preds, subject_uri)
+        if len(titles) > 0:
+            eval.log(f"Found titles: {' ,'.join(titles)}")
+            eval.data['title'] = titles
 
 
-            if found_link:
-                eval.success('Found properties/links for the URI ' + alt_uri + ' in the metadata: ' 
-                    + ', '.join(list(eval.data['identifier_in_metadata']['properties'].keys()) + list(eval.data['identifier_in_metadata']['linked_to'].keys()))
-                )
-                break
-            else: 
-                eval.failure('Could not find links to the resource URI ' + alt_uri + ' in the RDF metadata')
+        description_preds = [ DCTERMS.description, URIRef('http://schema.org/description'), URIRef('https://schema.org/description')]
+        descriptions = eval.extract_prop(g, description_preds, subject_uri)
+        if len(descriptions) > 0:
+            eval.log(f"Found descriptions: {' ,'.join(descriptions)}")
+            eval.data['description'] = descriptions
+
+        date_created_preds = [ DCTERMS.created, URIRef('http://schema.org/dateCreated'), URIRef('http://schema.org/datePublished')]
+        dates = eval.extract_prop(g, date_created_preds, subject_uri)
+        if len(dates) > 0:
+            eval.log(f"Found created date: {' ,'.join(dates)}")
+            eval.data['created'] = dates
+
+
+        if found_link:
+            eval.success('Found properties/links for the URI ' + alt_uri + ' in the metadata: ' 
+                + ', '.join(list(eval.data['identifier_in_metadata']['properties'].keys()) + list(eval.data['identifier_in_metadata']['linked_to'].keys()))
+            )
+        else: 
+            eval.failure('Could not find links to the resource URI ' + alt_uri + ' in the RDF metadata')
 
 
         return eval.response()
