@@ -49,20 +49,28 @@ If found, retrieve informations about this resource (title, description, date cr
         # FDP specs: https://github.com/FAIRDataTeam/FAIRDataPoint-Spec/blob/master/spec.md
         # Stats for KG: https://www.w3.org/TR/hcls-dataset
 
+        # TODO: create a new helper function get_subject_in_metadata()?
         eval.info(f"Checking RDF metadata to find links to all the alternative identifiers: <{'>, <'.join(eval.data['alternative_uris'])}>")
         found_link = False
+        subject_uri = None
+        # TODO: also search for dc:identifier or schema:identifier (e.g. https://w3id.org/AmIFAIR uses a blank node, 
+        # and put the resource URI in schema:identifier)
         for alt_uri in eval.data['alternative_uris']:
             uri_ref = URIRef(alt_uri)
             resource_properties = {}
             resource_linked_to = {}
             eval.data['identifier_in_metadata'] = {}
+            # Search with the subject URI as triple subject
             for p, o in g.predicate_objects(uri_ref):
                 found_link = True
                 resource_properties[str(p)] = str(o)
+                subject_uri = uri_ref
             eval.data['identifier_in_metadata']['properties'] = resource_properties
+            # Search with the subject URI as triple object
             for s, p in g.subject_predicates(uri_ref):
                 found_link = True
                 resource_linked_to[str(s)] = str(p)
+                subject_uri = s
             eval.data['identifier_in_metadata']['linked_to'] = resource_linked_to
 
             # eval.data['identifier_in_metadata'] = {
@@ -74,20 +82,21 @@ If found, retrieve informations about this resource (title, description, date cr
 
             # Try to extract some metadata from the parsed RDF
             title_preds = [ DC.title, DCTERMS.title, RDFS.label, URIRef('http://schema.org/name')]
-            titles = eval.extract_prop(g, title_preds, eval.data['alternative_uris'])
+            # titles = eval.extract_prop(g, title_preds, eval.data['alternative_uris'])
+            titles = eval.extract_prop(g, title_preds, subject_uri)
             if len(titles) > 0:
                 eval.log(f"Found titles: {' ,'.join(titles)}")
                 eval.data['title'] = titles
 
 
             description_preds = [ DCTERMS.description, URIRef('http://schema.org/description')]
-            descriptions = eval.extract_prop(g, description_preds, eval.data['alternative_uris'])
+            descriptions = eval.extract_prop(g, description_preds, subject_uri)
             if len(descriptions) > 0:
                 eval.log(f"Found descriptions: {' ,'.join(descriptions)}")
                 eval.data['description'] = descriptions
 
             date_created_preds = [ DCTERMS.created, URIRef('http://schema.org/dateCreated'), URIRef('http://schema.org/datePublished')]
-            dates = eval.extract_prop(g, date_created_preds, eval.data['alternative_uris'])
+            dates = eval.extract_prop(g, date_created_preds, subject_uri)
             if len(dates) > 0:
                 eval.log(f"Found created date: {' ,'.join(dates)}")
                 eval.data['created'] = dates
