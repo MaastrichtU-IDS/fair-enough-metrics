@@ -86,19 +86,22 @@ class MetricTest(FairTest):
 
             resource_uris = eval.data['alternative_uris']
             eval.info('Running search in DuckDuckGo for: ' + title)
-            # ddg(keywords, region='wt-wt', safesearch='Moderate', time=None, max_results=50):
-            search_results = ddg(title, region='wt-wt', max_results=80)
-            # search_results = list(search(title, tld="co.in", num=20, stop=20, pause=1))
-            print(json.dumps(search_results, indent=2))
-            uris_found = [s['href'] for s in search_results] 
+            try:
+                # ddg(keywords, region='wt-wt', safesearch='Moderate', time=None, max_results=50):
+                search_results = ddg(title, region='wt-wt', max_results=80)
+                # search_results = list(search(title, tld="co.in", num=20, stop=20, pause=1))
+                print(json.dumps(search_results, indent=2))
+                uris_found = [s['href'] for s in search_results] 
 
-            matching_uris = list(set(resource_uris).intersection(uris_found))
-            # if any(i in resource_uris for i in search_results):
-            if matching_uris:
-                eval.success('Found the resource URI ' + ', '.join(matching_uris) + ' when searching in popular Search Engines for ' + title)
-            else:
-                eval.warn('Did not find one of the resource URIs ' + ', '.join(resource_uris) + ' in the URIs found: '+ ', '.join(uris_found))
-                eval.warn(f"Resource not found when searching in DuckDuckGo for {title}")
+                matching_uris = list(set(resource_uris).intersection(uris_found))
+                # if any(i in resource_uris for i in search_results):
+                if matching_uris:
+                    eval.success('Found the resource URI ' + ', '.join(matching_uris) + ' when searching in popular Search Engines for ' + title)
+                else:
+                    eval.warn('Did not find one of the resource URIs ' + ', '.join(resource_uris) + ' in the URIs found: '+ ', '.join(uris_found))
+                    eval.warn(f"Resource not found when searching in DuckDuckGo for {title}")
+            except:
+                eval.warn('Error running DuckDuckGo search')
         else:
             eval.warn('No resource title found, cannot search in Search Engine')
 
