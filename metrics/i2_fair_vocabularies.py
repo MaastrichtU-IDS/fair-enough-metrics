@@ -27,6 +27,7 @@ Resolve IRIs, check FAIRness of the returned documents."""
         lod_cloudnet = 'https://lod-cloud.net/lod-data.json'
 
         g = eval.retrieve_rdf(eval.subject)
+        # g = eval.retrieve_rdf(eval.subject, use_harvester=True)
         if len(g) == 0:
             eval.failure('No RDF found at the subject URL provided.')
             return eval.response()

@@ -48,7 +48,12 @@ If found, retrieve informations about this resource (title, description, date cr
             eval.success(f"Found the subject identifier in the metadata: {str(subject_uri)}")
 
             # Try to extract some metadata from the parsed RDF
-            title_preds = [ DC.title, DCTERMS.title, RDFS.label, URIRef('http://schema.org/name'), URIRef('https://schema.org/name')]
+            title_preds = [ 
+                DC.title, DCTERMS.title, 
+                RDFS.label, 
+                URIRef('http://schema.org/name'), URIRef('https://schema.org/name'),
+                URIRef('http://ogp.me/ns#title'),    
+            ]
             # titles = eval.extract_prop(g, title_preds, eval.data['alternative_uris'])
             titles = eval.extract_prop(g, title_preds, subject_uri)
             if len(titles) > 0:
@@ -56,7 +61,11 @@ If found, retrieve informations about this resource (title, description, date cr
                 eval.data['title'] = titles
 
 
-            description_preds = [ DCTERMS.description, URIRef('http://schema.org/description'), URIRef('https://schema.org/description')]
+            description_preds = [ 
+                DCTERMS.description, 
+                URIRef('http://schema.org/description'), URIRef('https://schema.org/description'),
+                URIRef('http://ogp.me/ns#description'),    
+            ]
             descriptions = eval.extract_prop(g, description_preds, subject_uri)
             if len(descriptions) > 0:
                 eval.log(f"Found descriptions: {' ,'.join(descriptions)}")

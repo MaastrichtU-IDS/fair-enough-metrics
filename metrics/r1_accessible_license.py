@@ -24,7 +24,10 @@ Resolve the licenses IRI"""
         # found_license = False
         # Issue with extracting license from some URIs, such as https://www.uniprot.org/uniprot/P51587
         # Getting a URI that is not really the license as output
+        
         g = eval.retrieve_rdf(eval.subject)
+        # g = eval.retrieve_rdf(eval.subject, use_harvester=True, harvester_url='http://wrong-url-for-testing')
+
         if len(g) == 0:
             eval.failure('No RDF found at the subject URL provided.')
             return eval.response()
@@ -34,19 +37,6 @@ Resolve the licenses IRI"""
 
         eval.info(f"Checking RDF metadata to find links to all the alternative identifiers: <{'>, <'.join(eval.data['alternative_uris'])}>")
         subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
-        # for alt_uri in eval.data['alternative_uris']:
-        #     uri_ref = URIRef(alt_uri)
-        #     resource_properties = {}
-        #     resource_linked_to = {}
-        #     eval.data['identifier_in_metadata'] = {}
-        #     # Search with the subject URI as triple subject
-        #     for p, o in g.predicate_objects(uri_ref):
-        #         subject_uri = uri_ref
-        #     if not subject_uri:
-        #         # Search with the subject URI as triple object
-        #         for s, p in g.subject_predicates(uri_ref):
-        #             subject_uri = s
-
 
         # TODO: check DataCite too?
         license_preds = [
