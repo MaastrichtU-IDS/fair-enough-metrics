@@ -21,11 +21,12 @@ class MetricTest(FairTest):
         'https://doi.org/10.34894/DR3I2A': 1,
         'https://doi.org/10.1045/november2015-vandesompel': 1,
         'https://doi.org/10.1016/j.jbi.2008.03.004': 1,
-        'https://doi.org/10.25504/FAIRsharing.jptb1m': 1,
         'https://doi.org/10.1038/sdata.2016.18': 1,
         'https://doi.org/10.1016/J.JBI.2019.103292': 1,
         'https://w3id.org/AmIFAIR': 1,
         'http://example.com': 0,
+        # FAIRsharing not consistent, most of the time give 1, but sometimes fails (their server timeout)
+        'https://doi.org/10.25504/FAIRsharing.jptb1m': 1,
         # 'https://www.proteinatlas.org/ENSG00000084110-HAL': 1,
         # 'https://data.rivm.nl/meta/srv/eng/rdf.metadata.get?uuid=1c0fcd57-1102-4620-9cfa-441e93ea5604&approved=true': 1,
     }
