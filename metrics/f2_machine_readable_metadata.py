@@ -26,7 +26,7 @@ class MetricTest(FairTest):
         'https://w3id.org/AmIFAIR': 1,
         'http://example.com': 0,
         # FAIRsharing not consistent, most of the time give 1, but sometimes fails (their server timeout)
-        'https://doi.org/10.25504/FAIRsharing.jptb1m': 1,
+        # 'https://doi.org/10.25504/FAIRsharing.jptb1m': 1,
         # 'https://www.proteinatlas.org/ENSG00000084110-HAL': 1,
         # 'https://data.rivm.nl/meta/srv/eng/rdf.metadata.get?uuid=1c0fcd57-1102-4620-9cfa-441e93ea5604&approved=true': 1,
     }
