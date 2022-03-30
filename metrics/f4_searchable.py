@@ -46,7 +46,7 @@ class MetricTest(FairTest):
                 # print(datacite_json['data']['attributes'].keys())
                 # ['id', 'type', 'attributes', 'relationships']
                 if datacite_data:
-                    eval.info('Found ' + doi + ' in DataCite API')
+                    eval.success('Found ' + doi + ' in DataCite')
                     eval.data['datacite'] = {}
                     # print('datacite_data')
                     # print(datacite_data.keys())
