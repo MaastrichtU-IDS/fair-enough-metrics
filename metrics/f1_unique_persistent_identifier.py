@@ -19,7 +19,13 @@ class MetricTest(FairTest):
 
     def evaluate(self, eval: FairTestEvaluation):
         # TODO: use https://pythonhosted.org/IDUtils
-        accepted_persistent = ['doi.org', 'purl.org', 'identifiers.org', 'w3id.org']
+        accepted_persistent = [
+            'doi.org', 
+            'purl.org', 
+            'identifiers.org', 
+            'w3id.org'
+        ]
+
         eval.info('Checking if the given resource URI ' + eval.subject + ' is a valid URL using urllib.urlparse')
         result = urlparse(eval.subject)
         if result.scheme and result.netloc:
@@ -54,10 +60,5 @@ class MetricTest(FairTest):
                 eval.success('Validated the given resource URI ' + eval.subject + ' is a persistent URL')
             else:
                 eval.failure('The given resource URI ' + eval.subject + ' is not considered a persistent URL')
-
-        # Quick fix to add an alternative URI for doi.org that is used as identifier in the metadata
-        if eval.data['uri_location'] == 'doi.org':
-            eval.data['alternative_uris'].append(eval.subject.replace('https://doi.org/', 'http://dx.doi.org/'))
-            eval.data['alternative_uris'].append(eval.subject.lower())
 
         return eval.response()
