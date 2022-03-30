@@ -25,7 +25,7 @@ class MetricTest(FairTest):
         'https://doi.org/10.1038/sdata.2016.18': 1,
         'https://doi.org/10.1016/J.JBI.2019.103292': 1,
         'https://w3id.org/AmIFAIR': 1,
-        'https://github.com/MaastrichtU-IDS/fair-test': 0,
+        'http://example.com': 0,
         # 'https://www.proteinatlas.org/ENSG00000084110-HAL': 1,
         # 'https://data.rivm.nl/meta/srv/eng/rdf.metadata.get?uuid=1c0fcd57-1102-4620-9cfa-441e93ea5604&approved=true': 1,
     }
@@ -33,7 +33,9 @@ class MetricTest(FairTest):
 
     def evaluate(self, eval: FairTestEvaluation):
         eval.info('Checking if machine readable data (e.g. RDF, JSON-LD) can be retrieved using content-negotiation at ' + eval.subject)
+        
         g = eval.retrieve_rdf(eval.subject)
+        
         if len(g) > 0:
             eval.success(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
         else:

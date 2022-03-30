@@ -42,17 +42,17 @@ class MetricTest(FairTest):
                 r = requests.get(datacite_dois_api + doi, timeout=10)
                 datacite_json = r.json()
                 datacite_data = datacite_json['data']['attributes']
-                print(datacite_json['data']['attributes'].keys())
+                # print(datacite_json['data']['attributes'].keys())
                 # ['id', 'type', 'attributes', 'relationships']
                 if datacite_data:
                     eval.success('Retrieved metadata about ' + doi + ' from DataCite API')
                     eval.data['datacite'] = {}
-                    print('datacite_data')
-                    print(datacite_data.keys())
+                    # print('datacite_data')
+                    # print(datacite_data.keys())
 
                     if 'titles' in datacite_data.keys():
                         eval.data['datacite']['title'] = datacite_data['titles'][0]['title']
-                        print(eval.data['datacite']['title'])
+                        # print(eval.data['datacite']['title'])
                         if not 'title' in eval.data:
                             eval.data['title'] = [eval.data['datacite']['title']]
 
@@ -90,7 +90,7 @@ class MetricTest(FairTest):
                 # ddg(keywords, region='wt-wt', safesearch='Moderate', time=None, max_results=50):
                 search_results = ddg(title, region='wt-wt', max_results=80)
                 # search_results = list(search(title, tld="co.in", num=20, stop=20, pause=1))
-                print(json.dumps(search_results, indent=2))
+                # print(json.dumps(search_results, indent=2))
                 uris_found = [s['href'] for s in search_results] 
 
                 matching_uris = list(set(resource_uris).intersection(uris_found))

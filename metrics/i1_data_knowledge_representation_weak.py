@@ -23,10 +23,13 @@ This particular test takes a broad view of what defines a 'knowledge representat
         if len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
 
+        subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
         # Retrieve URI of the data in the RDF metadata
-        data_res = eval.extract_data_uri(g)
+        data_res = eval.extract_data_uri(g, subject_uri)
         if len(data_res) < 1:
             eval.failure("Could not find data URI in the metadata.")
+        else:
+            eval.data['data_uri'] = data_res
 
         # Check if structured data can be found at the data URI
         for value in data_res:

@@ -15,7 +15,8 @@ Resolve the licenses IRI"""
     test_test={
         'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
         'https://doi.org/10.1594/PANGAEA.908011': 1,
-        'https://github.com/MaastrichtU-IDS/fair-test': 0,
+        'https://w3id.org/AmIFAIR': 1,
+        'http://example.com': 0,
     }
 
 
@@ -32,19 +33,19 @@ Resolve the licenses IRI"""
 
 
         eval.info(f"Checking RDF metadata to find links to all the alternative identifiers: <{'>, <'.join(eval.data['alternative_uris'])}>")
-        subject_uri = None
-        for alt_uri in eval.data['alternative_uris']:
-            uri_ref = URIRef(alt_uri)
-            resource_properties = {}
-            resource_linked_to = {}
-            eval.data['identifier_in_metadata'] = {}
-            # Search with the subject URI as triple subject
-            for p, o in g.predicate_objects(uri_ref):
-                subject_uri = uri_ref
-            if not subject_uri:
-                # Search with the subject URI as triple object
-                for s, p in g.subject_predicates(uri_ref):
-                    subject_uri = s
+        subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
+        # for alt_uri in eval.data['alternative_uris']:
+        #     uri_ref = URIRef(alt_uri)
+        #     resource_properties = {}
+        #     resource_linked_to = {}
+        #     eval.data['identifier_in_metadata'] = {}
+        #     # Search with the subject URI as triple subject
+        #     for p, o in g.predicate_objects(uri_ref):
+        #         subject_uri = uri_ref
+        #     if not subject_uri:
+        #         # Search with the subject URI as triple object
+        #         for s, p in g.subject_predicates(uri_ref):
+        #             subject_uri = s
 
 
         # TODO: check DataCite too?
