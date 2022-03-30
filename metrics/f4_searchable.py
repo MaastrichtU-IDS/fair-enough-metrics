@@ -25,7 +25,7 @@ class MetricTest(FairTest):
         re3data_endpoint = 'https://re3data.org/api/beta/repositories'
         datacite_dois_api = 'https://api.datacite.org/dois/'
         # metadata_catalog = https://rdamsc.bath.ac.uk/api/m
-        # headers = {"Accept": "application/json"}
+        headers = {"Accept": "application/json"}
         doi = None
         result = urlparse(eval.subject)
         if result.scheme and result.netloc:
@@ -38,6 +38,7 @@ class MetricTest(FairTest):
         # If DOI: check for metadata in DataCite API
         try:
             if doi:
+                # if self.subject.startswith('https://doi.org/') or self.subject.startswith('http://doi.org/'):
                 eval.info('Checking DataCite API for metadata about the DOI: ' + doi)
                 r = requests.get(datacite_dois_api + doi, timeout=10)
                 datacite_json = r.json()
@@ -45,7 +46,7 @@ class MetricTest(FairTest):
                 # print(datacite_json['data']['attributes'].keys())
                 # ['id', 'type', 'attributes', 'relationships']
                 if datacite_data:
-                    eval.success('Retrieved metadata about ' + doi + ' from DataCite API')
+                    eval.info('Found ' + doi + ' in DataCite API')
                     eval.data['datacite'] = {}
                     # print('datacite_data')
                     # print(datacite_data.keys())
@@ -72,17 +73,6 @@ class MetricTest(FairTest):
         ## Check DuckDuckGo search using the resource title and its alternative URIs
         if 'title' in eval.data.keys() and len(eval.data['title']) > 0:
             title = eval.data['title'][0]
-
-            try:
-                # Get redirect URIs as alternative URIs
-                r = requests.get(eval.subject)
-                r.raise_for_status()  # Raises a HTTPError if the status is 4xx, 5xxx
-                eval.success('Successfully resolved ' + eval.subject)
-                if r.history:
-                    eval.info("Request was redirected to " + r.url + '.')
-                    eval.data['alternative_uris'].append(r.url)
-            except:
-                eval.warn(f'Could not resolve {eval.subject}')
 
             resource_uris = eval.data['alternative_uris']
             eval.info('Running search in DuckDuckGo for: ' + title)
