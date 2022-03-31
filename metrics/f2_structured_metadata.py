@@ -3,10 +3,11 @@ import requests
 
 
 class MetricTest(FairTest):
-    metric_path = 'f2-machine-readable-metadata'
+    metric_path = 'f2-structured-metadata'
     applies_to_principle = 'F2'
-    title = 'Metadata is machine-readable'
-    description = """This assessment will try to extract metadata from the resource URI:
+    title = 'Metadata is structured'
+    description = """Tests whether a machine is able to find structured metadata. This could be (for example) RDFa, embedded json, json-ld, or content-negotiated structured metadata such as RDF Turtle.
+This assessment will try to extract metadata from the resource URI:
 - Search for structured metadata at the resource URI. 
 - Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON), 
 - Extract metadata from the HTML landing page using extruct"""

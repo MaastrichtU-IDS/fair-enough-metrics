@@ -5,10 +5,11 @@ from urllib.parse import urlparse
 
 
 class MetricTest(FairTest):
-    metric_path = 'f3-id-in-metadata'
+    metric_path = 'f3-metadata-identifier-in-metadata'
     applies_to_principle = 'F3'
-    title = 'Resource Identifier is in Metadata'
-    description = """Whether the metadata document contains the globally unique and persistent identifier for the digital resource.
+    title = 'Metadata identifier explicitly in metadata'
+    description = """Metric to test if the metadata contains the unique identifier to the metadata itself.
+Whether the metadata document contains the globally unique and persistent identifier for the digital resource.
 Parse the metadata to search for the given digital resource GUID.
 If found, retrieve informations about this resource (title, description, date created, etc)"""
     author = 'https://orcid.org/0000-0002-1501-1082'
@@ -45,7 +46,7 @@ If found, retrieve informations about this resource (title, description, date cr
                 eval.info('Found properties/links for the subject URI in the metadata: ' 
                     + ', '.join(list(eval.data['identifier_in_metadata']['linked_to'].keys()))
                 )
-            eval.success(f"Found the subject identifier in the metadata: {str(subject_uri)}")
+            eval.success(f"Found the metadata identifier in the metadata: {str(subject_uri)}")
 
             # Try to extract some metadata from the parsed RDF
             title_preds = [ 
@@ -78,6 +79,6 @@ If found, retrieve informations about this resource (title, description, date cr
                 eval.data['created'] = dates
         
         else: 
-            eval.failure(f'Could not find links to the subject URI {str(subject_uri)} in the RDF metadata')
+            eval.failure(f'Could not find links to the metadata identifier {str(subject_uri)} in the RDF metadata')
 
         return eval.response()

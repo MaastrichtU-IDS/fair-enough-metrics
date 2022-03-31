@@ -43,7 +43,7 @@ Resolve IRIs, check FAIRness of the returned documents."""
         # for ns_prefix, namespace in g.namespaces():
         #     print(ns_prefix, ' => ', namespace)
 
-        # Extract namespace manually because RDFLib can't do it
+        # Extract namespace manually because RDFLib can't do it?
         extracted_ns = []
         for row in io.StringIO(g.serialize(format='turtle')):
             if row.startswith('@prefix'):

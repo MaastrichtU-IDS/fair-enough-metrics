@@ -5,11 +5,10 @@ from rdflib.namespace import RDFS, XSD, DC, DCTERMS, VOID, OWL, SKOS, FOAF
 
 
 class MetricTest(FairTest):
-    metric_path = 'r1-accessible-license'
+    metric_path = 'r1-includes-license'
     applies_to_principle = 'R1'
-    title = 'Check accessible Usage License'
-    description = """The existence of a license document, for BOTH (independently) the data and its associated metadata, and the ability to retrieve those documents
-Resolve the licenses IRI"""
+    title = 'Metadata includes License'
+    description = """Maturity Indicator to test if the linked data metadata contains an explicit pointer to the license. Tests: xhtml, dvia, dcterms, cc, data.gov.au, and Schema license predicates in linked data."""
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={
