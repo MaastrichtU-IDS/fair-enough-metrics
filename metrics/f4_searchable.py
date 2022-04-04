@@ -27,7 +27,7 @@ then search for the resource URL in popular search engines using the extracted t
         'https://doi.org/10.1038/sdata.2016.18': 1,
         'https://purl.uniprot.org/uniprot/P51587': 1,
         'https://doi.org/10.1016/J.JBI.2019.103292': 1,
-        'https://github.com/MaastrichtU-IDS/fair-test': 1,
+        # 'https://github.com/MaastrichtU-IDS/fair-test': 1,
         # 'https://doi.org/10.1594/PANGAEA.908011': 1,
         'Wrong entry': 0,
     }
