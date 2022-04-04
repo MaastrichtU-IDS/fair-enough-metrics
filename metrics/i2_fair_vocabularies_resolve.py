@@ -22,11 +22,11 @@ One predicate from each hostname is tested, the test is successful if more than 
 
 
     def evaluate(self, eval: FairTestEvaluation):        
-        g = eval.retrieve_rdf(eval.subject)
-        if len(g) > 1:
-            eval.success('Successfully parsed the RDF metadata retrieved with content negotiation. It contains ' + str(len(g)) + ' triples')
+        g = eval.retrieve_metadata(eval.subject)
+        if not isinstance(g, (list, dict)) and len(g) > 0:
+            eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
         else:
-            eval.failure(f'Could not find RDF metadata at {eval.subject}')
+            eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
             return eval.response()
 
         domains_tested = []
@@ -37,12 +37,12 @@ One predicate from each hostname is tested, the test is successful if more than 
                 continue
             eval.info(f"Testing URI {str(p)} for the domain {result.netloc}")
             domains_tested.append(result.netloc)
-            g_test = eval.retrieve_rdf(str(p))
-            if len(g_test) > 0:
+            g_test = eval.retrieve_metadata(str(p))
+            if not isinstance(g_test, (list, dict)) and len(g_test) > 0:
                 domains_resolving += 1
-            else: 
+            else:
                 eval.warn(f"URI not resolving to RDF: {str(p)} (we consider the domain {result.netloc} does not resolve to Linked Data)")
-
+            
         eval.info(f"{str(domains_resolving)} URLs resolving, in {len(domains_tested)} domains tested: {', '.join(domains_tested)}")
 
         # Success if more than 60% of domains resolves

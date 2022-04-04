@@ -22,9 +22,12 @@ It also searches the metadata for the Dublin Core 'accessRights' property, which
     def evaluate(self, eval: FairTestEvaluation):
         # TODO: use https://pythonhosted.org/IDUtils
 
-        g = eval.retrieve_rdf(eval.subject)
-        if len(g) > 1:
+        g = eval.retrieve_metadata(eval.subject)
+        if not isinstance(g, (list, dict)) and len(g) > 0:
             eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
+        else:
+            eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+            return eval.response()
         
         subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
         # Extract the download URL of the data from the RDF metadata

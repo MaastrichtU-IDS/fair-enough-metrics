@@ -25,14 +25,14 @@ class MetricTest(FairTest):
         # Issue with extracting license from some URIs, such as https://www.uniprot.org/uniprot/P51587
         # Getting a URI that is not really the license as output
         
-        g = eval.retrieve_rdf(eval.subject)
-        # g = eval.retrieve_rdf(eval.subject, use_harvester=True, harvester_url='http://wrong-url-for-testing')
+        g = eval.retrieve_metadata(eval.subject)
+        # g = eval.retrieve_metadata(eval.subject, use_harvester=True, harvester_url='http://wrong-url-for-testing')
 
-        if len(g) == 0:
-            eval.failure('No RDF found at the subject URL provided.')
-            return eval.response()
+        if not isinstance(g, (list, dict)) and len(g) > 0:
+            eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
         else:
-            eval.info(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
+            eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+            return eval.response()
 
 
         eval.info(f"Checking RDF metadata to find links to all the alternative identifiers: <{'>, <'.join(eval.data['alternative_uris'])}>")

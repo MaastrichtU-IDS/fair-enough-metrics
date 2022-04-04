@@ -21,14 +21,13 @@ class MetricTest(FairTest):
 
 
     def evaluate(self, eval: FairTestEvaluation):        
-        g = eval.retrieve_rdf(eval.subject)
+        g = eval.retrieve_metadata(eval.subject)
 
-        if len(g) == 0:
-            eval.failure('No RDF found at the subject URL provided.')
-            return eval.response()
+        if not isinstance(g, (list, dict)) and len(g) > 0:
+            eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
         else:
-            eval.info(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
-
+            eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+            return eval.response()
 
         eval.info(f"Checking RDF metadata to find links to all the alternative identifiers: <{'>, <'.join(eval.data['alternative_uris'])}>")
         subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])

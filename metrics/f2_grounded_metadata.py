@@ -1,5 +1,4 @@
 from fair_test import FairTest, FairTestEvaluation
-import requests
 
 
 class MetricTest(FairTest):
@@ -41,11 +40,11 @@ This assessment will try to extract metadata from the resource URI:
     def evaluate(self, eval: FairTestEvaluation):
         eval.info('Checking if machine readable data (e.g. RDF, JSON-LD) can be retrieved using content-negotiation at ' + eval.subject)
         
-        g = eval.retrieve_rdf(eval.subject)
-        
-        if len(g) > 0:
+        g = eval.retrieve_metadata(eval.subject)
+
+        if not isinstance(g, (list, dict)) and len(g) > 0:
             eval.success(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
         else:
-            eval.failure('No RDF found at the subject URL provided.')
+            eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
         
         return eval.response()

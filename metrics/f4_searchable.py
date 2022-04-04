@@ -34,7 +34,7 @@ then search for the resource URL in popular search engines using the extracted t
     
 
     def evaluate(self, eval: FairTestEvaluation):
-        g = eval.retrieve_rdf(eval.subject)
+        g = eval.retrieve_metadata(eval.subject)
 
         # print(g.serialize(format='turtle'))
 
@@ -92,11 +92,11 @@ then search for the resource URL in popular search engines using the extracted t
 
         # If no title found through DataCite, try to get it from the subject URL RDF metadata
         if len(titles) < 1:
-            if len(g) == 0:
-                eval.failure('Could not extract title: no RDF found at the subject URL provided.')
-                return eval.response()
+            if not isinstance(g, (list, dict)) and len(g) > 0:
+                eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
             else:
-                eval.info(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
+                eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+                return eval.response()
             subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
             if subject_uri:
                 title_preds = [ 

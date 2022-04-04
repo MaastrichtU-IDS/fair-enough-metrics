@@ -24,9 +24,12 @@ This particular test takes a broad view of what defines a 'knowledge representat
 
     def evaluate(self, eval: FairTestEvaluation):        
         # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L190
-        g = eval.retrieve_rdf(eval.subject)
-        if len(g) > 1:
-            eval.success('Successfully parsed the RDF metadata retrieved with content negotiation. It contains ' + str(len(g)) + ' triples')
+        g = eval.retrieve_metadata(eval.subject)
+
+        if not isinstance(g, (list, dict)) and len(g) > 0:
+            eval.success(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
+        elif isinstance(g, (list, dict)) and len(g) > 0:
+            eval.success(f'Successfully found and parsed structured metadata. It contains {str(len(g))} objects')
         else:
             eval.warn('No RDF metadata found, searching for JSON')
             try:
@@ -43,6 +46,6 @@ This particular test takes a broad view of what defines a 'knowledge representat
                     eval.success('Successfully found and parsed YAML metadata')
                 except Exception as e:
                     eval.failure('No YAML metadata found')
-            
+
         return eval.response()
 

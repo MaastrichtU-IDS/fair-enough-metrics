@@ -21,9 +21,12 @@ This particular test takes a broad view of what defines a 'knowledge representat
 
 
     def evaluate(self, eval: FairTestEvaluation):        
-        g = eval.retrieve_rdf(eval.subject)
-        if len(g) > 1:
-            eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
+        g = eval.retrieve_metadata(eval.subject)
+        if not isinstance(g, (list, dict)) and len(g) > 0:
+            eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
+        else:
+            eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+            return eval.response()
 
         subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
         # Retrieve URI of the data in the RDF metadata
@@ -35,10 +38,12 @@ This particular test takes a broad view of what defines a 'knowledge representat
         # Check if structured data can be found at the data URI
         for value in eval.data['content_url']:
             eval.info(f'Found data URI: {value}. Try retrieving RDF')
-            data_g = eval.retrieve_rdf(value)
-            if len(data_g) > 1:
-                eval.info(f'Successfully retrieved RDF for the data URI: {value}. It contains {str(len(g))} triples')
-                eval.success(f'Successfully found and parsed RDF data for {value}')
+            data_g = eval.retrieve_metadata(value)
+
+            if not isinstance(data_g, (list, dict)) and len(data_g) > 0:
+                eval.success(f'Successfully found and parsed RDF data. It contains {str(len(g))} triples')
+            elif isinstance(data_g, (list, dict)) and len(data_g) > 0:
+                eval.success(f'Successfully found and parsed structured data. It contains {str(len(g))} objects')
 
             else:
                 eval.warn(f'No RDF data found for {value}, searching for JSON')

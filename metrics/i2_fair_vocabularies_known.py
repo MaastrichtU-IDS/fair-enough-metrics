@@ -26,13 +26,13 @@ Check if at least 1 of the namespace used can be found in the Linked Open Vocabu
         lov_api = 'https://lov.linkeddata.es/dataset/lov/api/v2/vocabulary/list'
         lod_cloudnet = 'https://lod-cloud.net/lod-data.json'
 
-        g = eval.retrieve_rdf(eval.subject)
-        # g = eval.retrieve_rdf(eval.subject, use_harvester=True)
-        if len(g) == 0:
-            eval.failure('No RDF found at the subject URL provided.')
-            return eval.response()
+        g = eval.retrieve_metadata(eval.subject)
+        # g = eval.retrieve_metadata(eval.subject, use_harvester=True)
+        if not isinstance(g, (list, dict)) and len(g) > 0:
+            eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
         else:
-            eval.info(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
+            eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+            return eval.response()
 
         # eval.info('Checking RDF metadata vocabularies')
         rdflib_ns = [n for n in g.namespace_manager.namespaces()]

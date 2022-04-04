@@ -41,10 +41,14 @@ This assessment will try to extract metadata from the resource URI:
     def evaluate(self, eval: FairTestEvaluation):
         eval.info('Checking if machine readable data (e.g. RDF, JSON-LD) can be retrieved using content-negotiation at ' + eval.subject)
         
-        g = eval.retrieve_rdf(eval.subject)
-        if len(g) > 1:
-            eval.success('Successfully parsed the RDF metadata retrieved with content negotiation. It contains ' + str(len(g)) + ' triples')
+        g = eval.retrieve_metadata(eval.subject)
+
+        if not isinstance(g, (list, dict)) and len(g) > 0:
+            eval.success(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
+        elif isinstance(g, (list, dict)) and len(g) > 0:
+            eval.success(f'Successfully found and parsed structured metadata. It contains {str(len(g))} objects')
         else:
+            # eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
             eval.warn('No RDF metadata found, checking for JSON')
             try:
                 r_json = requests.get(eval.subject, headers={'accept': 'application/json'})

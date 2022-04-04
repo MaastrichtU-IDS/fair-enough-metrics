@@ -25,12 +25,12 @@ If found, retrieve informations about this resource (title, description, date cr
 
     def evaluate(self, eval: FairTestEvaluation):
 
-        g = eval.retrieve_rdf(eval.subject)
-        if len(g) == 0:
-            eval.failure('No RDF found at the subject URL provided.')
-            return eval.response()
+        g = eval.retrieve_metadata(eval.subject)
+        if not isinstance(g, (list, dict)) and len(g) > 0:
+            eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
         else:
-            eval.info(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
+            eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+            return eval.response()
 
         # FDP specs: https://github.com/FAIRDataTeam/FAIRDataPoint-Spec/blob/master/spec.md
         # Stats for KG: https://www.w3.org/TR/hcls-dataset

@@ -26,9 +26,12 @@ We test known URL persistence schemas (purl, doi, w3id, identifiers.org)."""
             'w3id.org',
         ]
 
-        g = eval.retrieve_rdf(eval.subject)
-        if len(g) > 1:
+        g = eval.retrieve_metadata(eval.subject)
+        if not isinstance(g, (list, dict)) and len(g) > 0:
             eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
+        else:
+            eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+            return eval.response()
 
         subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
         # Retrieve URI of the data in the RDF metadata

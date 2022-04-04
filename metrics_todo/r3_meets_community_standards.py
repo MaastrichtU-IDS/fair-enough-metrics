@@ -23,7 +23,7 @@ e.g. the certification service provides a hash of the data, which can be used to
 
     def evaluate(self, eval: FairTestEvaluation):
 
-        g = eval.retrieve_rdf(eval.subject)
+        g = eval.retrieve_metadata(eval.subject)
 
         # for s, p, o in g.triples((None, DCTERMS.conformsTo, None)):
         #     eval.info(f'Found a value for dcterms:conformsTo: {str(o)}')
@@ -37,7 +37,7 @@ e.g. the certification service provides a hash of the data, which can be used to
 
         # Check also: rdfs:isDefinedBy, rdfs:seeAlso?
 
-                # if isinstance(schema, str):
+        # if isinstance(schema, str):
         #     schema = SchemaLoader().loads(schema)
 
 
