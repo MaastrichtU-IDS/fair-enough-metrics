@@ -1,5 +1,6 @@
 from fair_test import FairTest, FairTestEvaluation
 import requests
+import yaml
 
 
 class MetricTest(FairTest):
@@ -9,8 +10,9 @@ class MetricTest(FairTest):
     description = """Tests whether a machine is able to find structured metadata. This could be (for example) RDFa, embedded json, json-ld, or content-negotiated structured metadata such as RDF Turtle.
 This assessment will try to extract metadata from the resource URI:
 - Search for structured metadata at the resource URI. 
-- Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON), 
+- Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON, YAML), 
 - Extract metadata from the HTML landing page using extruct"""
+    topics = ['metadata']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={
@@ -40,10 +42,24 @@ This assessment will try to extract metadata from the resource URI:
         eval.info('Checking if machine readable data (e.g. RDF, JSON-LD) can be retrieved using content-negotiation at ' + eval.subject)
         
         g = eval.retrieve_rdf(eval.subject)
-        
-        if len(g) > 0:
-            eval.success(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
+        if len(g) > 1:
+            eval.success('Successfully parsed the RDF metadata retrieved with content negotiation. It contains ' + str(len(g)) + ' triples')
         else:
-            eval.failure('No RDF found at the subject URL provided.')
-        
+            eval.warn('No RDF metadata found, checking for JSON')
+            try:
+                r_json = requests.get(eval.subject, headers={'accept': 'application/json'})
+                metadata = r_json.json()
+                eval.data['metadata_json'] = metadata
+                eval.success('Successfully found and parsed JSON metadata')
+            except:
+                eval.warn('No JSON metadata found, checking for YAML')
+                try:
+                    r_yaml = requests.get(eval.subject, headers={'accept': 'text/yaml'})
+                    metadata = yaml.load(str(r_yaml.text), Loader=yaml.FullLoader)
+                    eval.data['metadata_yaml'] = metadata
+                    eval.success('Successfully found and parsed YAML metadata')
+                except Exception as e:
+                    eval.failure('No YAML metadata found')
+
+
         return eval.response()

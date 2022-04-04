@@ -6,7 +6,7 @@ app = FairTestAPI(
     metrics_folder_path='metrics',
     description="""FAIR Metrics tests API for generic resources related to research. Follows the specifications described by the [FAIRMetrics](https://github.com/FAIRMetrics/Metrics) working group.
 
-[Source code](https://github.com/MaastrichtU-IDS/fair-enough-metrics)
+[Metrics Tests source code here](https://github.com/MaastrichtU-IDS/fair-enough-metrics), built with the [**fair-test** library](https://maastrichtu-ids.github.io/fair-test)
 
 [![Test Metrics](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml)
 """,

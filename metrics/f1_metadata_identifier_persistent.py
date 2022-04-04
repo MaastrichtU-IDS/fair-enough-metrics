@@ -10,6 +10,7 @@ class MetricTest(FairTest):
     title = 'Resource identifier is persistent'
     description = """Metric to test if the unique identifier of the metadata resource is likely to be persistent. 
 We test known URL persistence schemas (purl, doi, w3id, identifiers.org)."""
+    topics = ['metadata', 'persistence']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={

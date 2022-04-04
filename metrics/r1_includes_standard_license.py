@@ -5,13 +5,15 @@ from rdflib.namespace import RDFS, XSD, DC, DCTERMS, VOID, OWL, SKOS, FOAF
 
 
 class MetricTest(FairTest):
-    metric_path = 'r1-includes-license'
+    metric_path = 'r1-includes-standard-license'
     applies_to_principle = 'R1'
-    title = 'Metadata includes a License'
-    description = """Maturity Indicator to test if the linked data metadata contains an explicit pointer to the license. Tests: xhtml, dvia, dcterms, cc, data.gov.au, and Schema license predicates in linked data."""
+    title = 'Metadata includes a standard License'
+    description = """Maturity Indicator to test if the linked data metadata contains an explicit pointer to the license. 
+Tests: xhtml, dvia, dcterms, cc, data.gov.au, and Schema license predicates in linked data.
+And validates the license is a standard license defined in the SPDX licenses list."""
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
-    topics = ['metadata', 'minimal compliance']
+    topics = ['metadata', 'advanced compliance']
     test_test={
         'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
         'https://doi.org/10.1594/PANGAEA.908011': 1,
@@ -51,9 +53,23 @@ class MetricTest(FairTest):
         eval.info(f"Checking for license in RDF metadata using predicates: {str(license_preds)}")
         licenses = [str(s) for s in eval.extract_prop(g, license_preds, subject_uri)] 
         if len(licenses) > 0:
-            eval.success(f"Found licenses: {' ,'.join(licenses)}")
+            eval.info(f"Found licenses: {' ,'.join(licenses)}")
             eval.data['license'] = licenses
         else:
             eval.failure(f"Could not find a license in the metadata. Searched for the following predicates: {str(license_preds)}")
+
+        # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L229
+        spdx_licenses_url = 'https://raw.github.com/spdx/license-list-data/master/json/licenses.json'
+        eval.info(f"Check if license {', '.join(licenses)} is in the SPDX licenses list, available at {spdx_licenses_url}")
+        spdx_licenses = requests.get(spdx_licenses_url).json()['licenses']
+        for license_found in licenses:
+            eval.info(f"Checking LICENSE: {license_found}")
+            for open_license in spdx_licenses:
+                # eval.info(f"Checking OPENLICENSE: {open_license}")
+                for seealso_license in open_license['seeAlso']:
+                    if seealso_license.startswith(license_found):
+                        eval.success(f"License found to the SPDX licenses list: {str(license_found)}")
+                        if open_license['isOsiApproved'] == True:
+                            eval.bonus(f'License approved by the Open Source Initiative ({str(license_found)})')
 
         return eval.response()

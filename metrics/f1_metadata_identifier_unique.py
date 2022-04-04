@@ -8,6 +8,7 @@ class MetricTest(FairTest):
     applies_to_principle = 'F1'
     title = 'Resource metadata identifier is unique'
     description = """Metric to test if the metadata resource has a unique identifier. This is done by checking if the GUID is a URL"""
+    topics = ['metadata']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={

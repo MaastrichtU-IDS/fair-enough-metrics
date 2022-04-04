@@ -6,11 +6,13 @@ class MetricTest(FairTest):
     metric_path = 'f2-grounded-metadata'
     applies_to_principle = 'F2'
     title = 'Metadata is grounded and machine-readable'
-    description = """Tests whether a machine is able to find 'grounded' metadata. i.e. metadata terms that are in a resolvable namespace, where resolution leads to a definition of the meaning of the term. Examples include JSON-LD, embedded schema, or any form of RDF.
+    description = """Tests whether a machine is able to find 'grounded' metadata. i.e. metadata terms that are in a resolvable namespace, where resolution leads to a definition of the meaning of the term. 
+Examples include JSON-LD, embedded schema, or any form of RDF.
 This assessment will try to extract metadata from the resource URI:
 - Search for structured metadata at the resource URI. 
 - Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON), 
 - Extract metadata from the HTML landing page using extruct"""
+    topics = ['metadata', 'linked data']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={

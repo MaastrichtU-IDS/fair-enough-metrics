@@ -9,6 +9,7 @@ class MetricTest(FairTest):
     applies_to_principle = 'A1.2'
     title = 'Metadata authentication and authorization'
     description = """Tests metadata GUID for the ability to implement authentication and authorization in its resolution protocol. Accept URLs."""
+    topics = ['metadata']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     tests={

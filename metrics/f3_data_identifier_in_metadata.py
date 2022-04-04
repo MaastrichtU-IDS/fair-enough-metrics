@@ -10,6 +10,7 @@ class MetricTest(FairTest):
     title = 'Data identifier explicitly in metadata'
     description = """Metric to test if the metadata contains the unique identifier to the data. 
 This is done by searching for a variety of properties, including foaf:primaryTopic, schema:mainEntity, schema:distribution, sio:is-about, and iao:is-about. schema codeRepository is used for software releases."""
+    topics = ['data']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={
@@ -24,10 +25,10 @@ This is done by searching for a variety of properties, including foaf:primaryTop
         g = eval.retrieve_rdf(eval.subject)
         if len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
-
-        subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
+        
+        subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
         # Retrieve URI of the data in the RDF metadata
-        data_res = eval.extract_data_uri(g, subject_uri)
+        data_res = eval.extract_data_subject(g, subject_uri)
 
         if len(data_res) > 1:
             eval.success(f"Found the data URI in the metadata: {', '.join(data_res)}")

@@ -5,13 +5,14 @@ import yaml
 
 
 class MetricTest(FairTest):
-    metric_path = 'i1-data-knowledge-representation-weak'
+    metric_path = 'i1-data-knowledge-representation-structured'
     applies_to_principle = 'I1'
-    title = 'Data uses a formal knowledge representation language (weak)'
+    title = 'Data uses a formal structured knowledge representation language'
     description = """Maturity Indicator to test if the data uses a formal language broadly applicable for knowledge representation.
 This particular test takes a broad view of what defines a 'knowledge representation language'; in this evaluation, anything that can be represented as structured data will be accepted"""
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
+    topics = ['data', 'minimal compliance']
     test_test={
         'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
         'https://doi.org/10.1594/PANGAEA.908011': 0,
@@ -23,9 +24,9 @@ This particular test takes a broad view of what defines a 'knowledge representat
         if len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
 
-        subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
+        subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
         # Retrieve URI of the data in the RDF metadata
-        data_res = eval.extract_data_uri(g, subject_uri)
+        data_res = eval.extract_data_subject(g, subject_uri)
         if len(data_res) < 1:
             eval.failure("Could not find data URI in the metadata.")
         else:

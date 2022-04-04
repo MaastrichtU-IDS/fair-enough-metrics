@@ -9,6 +9,7 @@ class MetricTest(FairTest):
     title = 'Data authentication and authorization'
     description = """Test a discovered data GUID for the ability to implement authentication and authorization in its resolution protocol. Accepts URLs. 
 It also searches the metadata for the Dublin Core 'accessRights' property, which may point to a document describing the data access process. Recognition of other identifiers will be added upon request by the community."""
+    topics = ['data']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={
@@ -23,16 +24,16 @@ It also searches the metadata for the Dublin Core 'accessRights' property, which
         g = eval.retrieve_rdf(eval.subject)
         if len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
-
-        subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
-        # Retrieve URI of the data in the RDF metadata
-        data_res = eval.extract_data_uri(g, subject_uri)
+        
+        subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
+        # Extract the download URL of the data from the RDF metadata
+        data_res = eval.extract_data_subject(g, subject_uri)
         if len(data_res) < 1:
             eval.failure("Could not find data URI in the metadata.")
 
 
         found_access_rights = False
-        access_rights_preds = [DCTERMS.accessRights]
+        access_rights_preds = [ DCTERMS.accessRights ]
 
         for data_uri in data_res:
             eval.info('Checking if the data URI ' + data_uri + ' is a valid URL using urllib.urlparse')

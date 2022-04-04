@@ -2,12 +2,13 @@ from fair_test import FairTest, FairTestEvaluation
 
 
 class MetricTest(FairTest):
-    metric_path = 'i1-data-knowledge-representation'
+    metric_path = 'i1-data-knowledge-representation-semantic'
     applies_to_principle = 'I1'
-    title = 'Data uses a formal knowledge representation language (strong)'
+    title = 'Data uses a formal semantic knowledge representation language'
     description = """Maturity Indicator to test if the data uses a formal language broadly applicable for knowledge representation.
 This particular test takes a broad view of what defines a 'knowledge representation language'; in this evaluation, a knowledge representation language is interpreted as one in which terms are semantically-grounded in ontologies.
 Any form of ontologically-grounded linked data will pass this test."""
+    topics = ['data', 'linked data', 'advanced compliance']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={
@@ -21,9 +22,9 @@ Any form of ontologically-grounded linked data will pass this test."""
         if len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
 
-        subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
+        subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
         # Retrieve URI of the data in the RDF metadata
-        data_res = eval.extract_data_uri(g, subject_uri)
+        data_res = eval.extract_data_subject(g, subject_uri)
         if len(data_res) < 1:
             eval.failure("Could not find data URI in the metadata.")
 

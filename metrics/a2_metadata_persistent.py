@@ -9,6 +9,7 @@ class MetricTest(FairTest):
     applies_to_principle = 'A2'
     title = 'Metadata is persistent'
     description = """Metric to test if the metadata contains a persistence policy, explicitly identified by a persistencePolicy key (in hashed data) or a http://www.w3.org/2000/10/swap/pim/doc#persistencePolicy predicate in Linked Data."""
+    topics = ['metadata', 'persistence']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={
@@ -30,14 +31,14 @@ class MetricTest(FairTest):
 
 
         eval.info(f"Checking RDF metadata to find links to all the alternative identifiers: <{'>, <'.join(eval.data['alternative_uris'])}>")
-        subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
+        subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
 
         check_preds = [
             'http://www.w3.org/2000/10/swap/pim/doc#persistencePolicy',
         ]
 
         eval.info(f"Checking for license in RDF metadata using predicates: {str(check_preds)}")
-        extracted = eval.extract_prop(g, check_preds, subject_uri)
+        extracted = [str(s) for s in eval.extract_prop(g, check_preds, subject_uri)] 
         if len(extracted) > 0:
             eval.success(f"Found a persistent policy: {' ,'.join(extracted)}")
             eval.data['persistence_policy'] = extracted

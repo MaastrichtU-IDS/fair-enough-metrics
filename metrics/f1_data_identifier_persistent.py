@@ -8,6 +8,7 @@ class MetricTest(FairTest):
     title = 'Data identifier is persistent'
     description = """Metric to test if the unique identifier of the data resource is likely to be persistent. 
 We test known URL persistence schemas (purl, doi, w3id, identifiers.org)."""
+    topics = ['data', 'persistence']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={
@@ -29,15 +30,15 @@ We test known URL persistence schemas (purl, doi, w3id, identifiers.org)."""
         if len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
 
-        subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
+        subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
         # Retrieve URI of the data in the RDF metadata
-        data_res = eval.extract_data_uri(g, subject_uri)
-        if len(data_res) < 1:
+        data_res = eval.extract_data_subject(g, subject_uri)
+        if len(eval.data['content_url']) < 1:
             eval.failure("Could not find data URI in the metadata.")
         else:
             eval.info(f"Check if the data URI uses a persistent URI, one of: {', '.join(accepted_persistent)}")
 
-        for data_uri in data_res:
+        for data_uri in eval.data['content_url']:
             eval.info('Check if the data URI ' + data_uri + ' use a persistent URI, one of: ' + ', '.join(accepted_persistent))
             r = urlparse(data_uri)
             if r.netloc and r.netloc in accepted_persistent:

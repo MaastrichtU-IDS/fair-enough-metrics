@@ -5,15 +5,15 @@ import io
 
 
 class MetricTest(FairTest):
-    metric_path = 'i2-fair-vocabularies'
+    metric_path = 'i2-fair-vocabularies-known'
     applies_to_principle = 'I2'
-    title = 'Metadata uses FAIR Vocabularies'
-    description = """The metadata values and qualified relations should 
-themselves be FAIR, for example, terms from open, community-accepted 
-vocabularies published in an appropriate knowledge-exchange format. 
-Resolve IRIs, check FAIRness of the returned documents."""
+    title = 'Metadata uses FAIR Vocabularies registered in known repositories'
+    description = """The metadata values and qualified relations should themselves be FAIR, 
+for example, terms from open, community-accepted vocabularies published in an appropriate knowledge-exchange format. 
+Check if at least 1 of the namespace used can be found in the Linked Open Vocabularies repository."""
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
+    topics = ['metadata', 'linked data', 'minimal compliance']
     test_test={
         'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
         'https://doi.org/10.1594/PANGAEA.908011': 1,

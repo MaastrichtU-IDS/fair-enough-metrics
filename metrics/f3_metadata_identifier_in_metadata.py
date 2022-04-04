@@ -12,6 +12,7 @@ class MetricTest(FairTest):
 Whether the metadata document contains the globally unique and persistent identifier for the digital resource.
 Parse the metadata to search for the given digital resource GUID.
 If found, retrieve informations about this resource (title, description, date created, etc)"""
+    topics = ['metadata']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test={
@@ -35,7 +36,7 @@ If found, retrieve informations about this resource (title, description, date cr
         # Stats for KG: https://www.w3.org/TR/hcls-dataset
 
         eval.info(f"Checking RDF metadata to find links to all the alternative identifiers: <{'>, <'.join(eval.data['alternative_uris'])}>")
-        subject_uri = eval.extract_subject_from_metadata(g, eval.data['alternative_uris'])
+        subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
 
         if subject_uri:
             if 'properties' in eval.data['identifier_in_metadata'].keys():
@@ -52,11 +53,12 @@ If found, retrieve informations about this resource (title, description, date cr
             title_preds = [ 
                 DC.title, DCTERMS.title, 
                 RDFS.label, 
-                URIRef('http://schema.org/name'), URIRef('https://schema.org/name'),
+                URIRef('https://schema.org/name'),
+                URIRef('https://schema.org/headline'),
                 URIRef('http://ogp.me/ns#title'),    
             ]
             # titles = eval.extract_prop(g, title_preds, eval.data['alternative_uris'])
-            titles = eval.extract_prop(g, title_preds, subject_uri)
+            titles = [str(s) for s in eval.extract_prop(g, title_preds, subject_uri)] 
             if len(titles) > 0:
                 eval.log(f"Found titles: {' ,'.join(titles)}")
                 eval.data['title'] = titles
@@ -64,16 +66,21 @@ If found, retrieve informations about this resource (title, description, date cr
 
             description_preds = [ 
                 DCTERMS.description, 
-                URIRef('http://schema.org/description'), URIRef('https://schema.org/description'),
+                URIRef('http://schema.org/description'), 
+                URIRef('https://schema.org/description'),
                 URIRef('http://ogp.me/ns#description'),    
             ]
-            descriptions = eval.extract_prop(g, description_preds, subject_uri)
+            descriptions = [str(s) for s in eval.extract_prop(g, description_preds, subject_uri)] 
             if len(descriptions) > 0:
                 eval.log(f"Found descriptions: {' ,'.join(descriptions)}")
                 eval.data['description'] = descriptions
 
-            date_created_preds = [ DCTERMS.created, URIRef('http://schema.org/dateCreated'), URIRef('http://schema.org/datePublished')]
-            dates = eval.extract_prop(g, date_created_preds, subject_uri)
+            date_created_preds = [ 
+                DCTERMS.created, 
+                URIRef('http://schema.org/dateCreated'), 
+                URIRef('http://schema.org/datePublished')
+            ]
+            dates = [str(s) for s in eval.extract_prop(g, date_created_preds, subject_uri)] 
             if len(dates) > 0:
                 eval.log(f"Found created date: {' ,'.join(dates)}")
                 eval.data['created'] = dates
