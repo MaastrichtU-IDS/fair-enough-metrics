@@ -24,8 +24,8 @@ then search for the resource URL in popular search engines using the extracted t
     author = 'https://orcid.org/0000-0002-1501-1082'
     test_test={
         'https://doi.org/10.1038/sdata.2016.18': 1,
-        'https://doi.org/10.1016/J.JBI.2019.103292': 1,
-        'https://doi.org/10.1045/november2015-vandesompel': 1,
+        # 'https://doi.org/10.1016/J.JBI.2019.103292': 1,
+        # 'https://doi.org/10.1045/november2015-vandesompel': 1,
         # 'https://purl.uniprot.org/uniprot/P51587': 1,
         # 'https://github.com/MaastrichtU-IDS/fair-test': 1,
         # 'https://doi.org/10.1594/PANGAEA.908011': 1,
@@ -131,7 +131,9 @@ then search for the resource URL in popular search engines using the extracted t
 
                 eval.warn(f"Resource not found when searching in DuckDuckGo for {title}")
             except Exception as e:
-                eval.warn(f'Error running DuckDuckGo search: {str(e)}')
+                eval.info(f'Error running DuckDuckGo search: {str(e)}')
+                # import traceback
+                # print(traceback.print_exc())
 
 
             # Google free limitations: 100 queries per day, and poor quality results
