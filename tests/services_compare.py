@@ -75,7 +75,7 @@ map_metrics_url = {
 }
 
 eval_collecs = [
-    'fair-enough-maturity-indicators',
+    'fair-enough-dataset',
     'fair-evaluator-maturity-indicators'
 ]
 

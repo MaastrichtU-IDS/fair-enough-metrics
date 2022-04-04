@@ -8,9 +8,9 @@ class MetricTest(FairTest):
     description = """Tests whether a machine is able to find 'grounded' metadata. i.e. metadata terms that are in a resolvable namespace, where resolution leads to a definition of the meaning of the term. 
 Examples include JSON-LD, embedded schema, or any form of RDF.
 This assessment will try to extract metadata from the resource URI:
-- Search for structured metadata at the resource URI. 
-- Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON), 
-- Extract metadata from the HTML landing page using extruct"""
+- Extract metadata from the HTML landing page using extruct
+- Use HTTP requests with content-negotiation (RDF, JSON-LD)
+- Check for Signposting links redirection (aka. Web Linking)"""
     topics = ['metadata', 'linked data']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
@@ -28,6 +28,7 @@ This assessment will try to extract metadata from the resource URI:
         'https://w3id.org/AmIFAIR': 1,
         'https://purl.uniprot.org/uniprot/P51587': 1,
         'https://w3id.org/FAIR_Evaluator/evaluations/6259.json': 1,
+        'http://semanticscience.org/resource/metadata': 1,
         'http://example.com': 0,
         # 'https://w3id.org/FAIR_Tests/tests/gen2_structured_metadata': 0,
         # FAIRsharing not consistent, most of the time give 1, but sometimes fails (their server timeout)
