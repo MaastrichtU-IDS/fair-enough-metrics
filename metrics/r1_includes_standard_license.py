@@ -56,19 +56,22 @@ And validates the license is a standard license defined in the SPDX licenses lis
             eval.data['license'] = licenses
         else:
             eval.failure(f"Could not find a license in the metadata. Searched for the following predicates: {str(license_preds)}")
+            return eval.response()
 
         # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L229
         spdx_licenses_url = 'https://raw.github.com/spdx/license-list-data/master/json/licenses.json'
         eval.info(f"Check if license {', '.join(licenses)} is in the SPDX licenses list, available at {spdx_licenses_url}")
         spdx_licenses = requests.get(spdx_licenses_url).json()['licenses']
         for license_found in licenses:
-            eval.info(f"Checking LICENSE: {license_found}")
+            # eval.info(f"Checking LICENSE: {license_found}")
             for open_license in spdx_licenses:
                 # eval.info(f"Checking OPENLICENSE: {open_license}")
                 for seealso_license in open_license['seeAlso']:
                     if seealso_license.startswith(license_found):
                         eval.success(f"License found to the SPDX licenses list: {str(license_found)}")
                         if open_license['isOsiApproved'] == True:
-                            eval.bonus(f'License approved by the Open Source Initiative ({str(license_found)})')
-
+                            eval.bonus(f'License approved by the Open Source Initiative: {str(license_found)}')
+                        return eval.response()
+        
+        eval.failure(f"None of the licenses found can be found in the SPDX list: {', '.join(licenses)}")
         return eval.response()

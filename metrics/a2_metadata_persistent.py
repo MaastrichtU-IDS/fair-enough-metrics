@@ -36,13 +36,13 @@ class MetricTest(FairTest):
             'http://www.w3.org/2000/10/swap/pim/doc#persistencePolicy',
         ]
 
-        eval.info(f"Checking for license in RDF metadata using predicates: {str(check_preds)}")
+        eval.info(f"Checking for a persistence policy in RDF metadata using predicates: {str(check_preds)}")
         extracted = [str(s) for s in eval.extract_prop(g, check_preds, subject_uri)] 
         if len(extracted) > 0:
-            eval.success(f"Found a persistent policy: {' ,'.join(extracted)}")
+            eval.success(f"Found a persistence policy: {' ,'.join(extracted)}")
             eval.data['persistence_policy'] = extracted
         else:
-            eval.failure(f"Could not find a license in the metadata. Searched for the following predicates: {str(check_preds)}")
+            eval.failure(f"Could not find a persistence policy in the metadata. Searched for the following predicates: {str(check_preds)}")
 
 
         return eval.response()
