@@ -7,8 +7,9 @@ class MetricTest(FairTest):
     metric_path = 'a1-data-authorization'
     applies_to_principle = 'A1.2'
     title = 'Data authentication and authorization'
-    description = """Test a discovered data GUID for the ability to implement authentication and authorization in its resolution protocol. Accepts URLs. 
-It also searches the metadata for the Dublin Core 'accessRights' property, which may point to a document describing the data access process. Recognition of other identifiers will be added upon request by the community."""
+    description = """Test a discovered data GUID for the ability to implement authentication and authorization in its resolution protocol. Successful if the subject is a URL. 
+
+It also searches the metadata for the Dublin Core `dc:accessRights` property, which may point to a document describing the data access process."""
     topics = ['data']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
@@ -33,7 +34,7 @@ It also searches the metadata for the Dublin Core 'accessRights' property, which
         # Extract the download URL of the data from the RDF metadata
         data_res = eval.extract_data_subject(g, subject_uri)
         if len(eval.data['content_url']) < 1:
-            eval.failure("Could not find data URI in the metadata.")
+            eval.failure("Could not find the data URI in the subject metadata.")
 
 
         found_access_rights = False
@@ -45,7 +46,7 @@ It also searches the metadata for the Dublin Core 'accessRights' property, which
             if result.scheme and result.netloc:
                 eval.success('Validated the data URI ' + data_uri + ' is a URL')
             else:
-                eval.failure('Could not validate the data URI ' + data_uri + ' is a URL')    
+                eval.warn('Could not validate the data URI ' + data_uri + ' is a URL')    
 
 
             eval.info('Authorization: checking for dct:accessRights in metadata')

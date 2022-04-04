@@ -37,7 +37,7 @@ We test known URL persistence schemas (purl, doi, w3id, identifiers.org)."""
         # Retrieve URI of the data in the RDF metadata
         data_res = eval.extract_data_subject(g, subject_uri)
         if len(eval.data['content_url']) < 1:
-            eval.failure("Could not find data URI in the metadata.")
+            eval.failure("Could not find the data URI in the subject metadata.")
         else:
             eval.info(f"Check if the data URI uses a persistent URI, one of: {', '.join(accepted_persistent)}")
 

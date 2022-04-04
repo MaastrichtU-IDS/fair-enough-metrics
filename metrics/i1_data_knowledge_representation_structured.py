@@ -32,7 +32,7 @@ This particular test takes a broad view of what defines a 'knowledge representat
         # Retrieve URI of the data in the RDF metadata
         data_res = eval.extract_data_subject(g, subject_uri)
         if len(eval.data['content_url']) < 1:
-            eval.failure("Could not find data URI in the metadata.")
+            eval.failure("Could not find the data URI in the subject metadata.")
 
 
         # Check if structured data can be found at the data URI

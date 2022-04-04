@@ -30,7 +30,7 @@ Any form of ontologically-grounded linked data will pass this test."""
         # Retrieve URI of the data in the RDF metadata
         data_res = eval.extract_data_subject(g, subject_uri)
         if len(eval.data['content_url']) < 1:
-            eval.failure("Could not find data URI in the metadata.")
+            eval.failure("Could not find the data URI in the subject metadata.")
 
         # Check if RDF data can be found at the data URI
         for value in eval.data['content_url']:

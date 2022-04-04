@@ -10,6 +10,7 @@ class MetricTest(FairTest):
     title = 'Metadata identifier explicitly in metadata'
     description = """Metric to test if the metadata contains the unique identifier to the metadata itself.
 Whether the metadata document contains the globally unique and persistent identifier for the digital resource.
+
 Parse the metadata to search for the given digital resource GUID.
 If found, retrieve informations about this resource (title, description, date created, etc)"""
     topics = ['metadata']

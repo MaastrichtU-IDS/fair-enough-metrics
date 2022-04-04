@@ -6,7 +6,9 @@ class MetricTest(FairTest):
     metric_path = 'a1-data-protocol'
     applies_to_principle = 'A1.1'
     title = 'Uses an open free protocol for data retrieval'
-    description = """Data may be retrieved by an open and free protocol. Tests metadata GUID for its resolution protocol. Accept URLs."""
+    description = """Data may be retrieved by an open and free protocol. Tests metadata GUID for its resolution protocol.
+    
+Successful if the subject is a URL."""
     topics = ['data']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
@@ -30,7 +32,7 @@ class MetricTest(FairTest):
         # Retrieve URI of the data in the RDF metadata
         data_res = eval.extract_data_subject(g, subject_uri)
         if len(eval.data['content_url']) < 1:
-            eval.failure("Could not find data URI in the metadata.")
+            eval.failure("Could not find the data URI in the subject metadata.")
 
         # We check the content URL, because data_res can be a BNode
         for data_uri in eval.data['content_url']:
@@ -44,7 +46,7 @@ class MetricTest(FairTest):
                     eval.data['uri_doi'] = result.path[1:]
                 eval.success('Validated the data URI ' + data_uri + ' is a URL')
             else:
-                eval.failure('Could not validate the data URI ' + data_uri + ' is a URL')    
+                eval.warn('Could not validate the data URI ' + data_uri + ' is a URL')    
 
 
         return eval.response()

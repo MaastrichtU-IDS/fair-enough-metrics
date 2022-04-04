@@ -49,13 +49,12 @@ And validates the license is a standard license defined in the SPDX licenses lis
             'http://reference.data.gov.au/def/ont/dataset#hasLicense',
         ]
 
-        eval.info(f"Checking for license in RDF metadata using predicates: {str(license_preds)}")
         licenses = [str(s) for s in eval.extract_prop(g, license_preds, subject_uri)] 
         if len(licenses) > 0:
             eval.info(f"Found licenses: {' ,'.join(licenses)}")
             eval.data['license'] = licenses
         else:
-            eval.failure(f"Could not find a license in the metadata. Searched for the following predicates: {str(license_preds)}")
+            eval.failure(f"Could not find a license in the subject metadata. We searched for the following predicates: {' ,'.join(license_preds)}")
             return eval.response()
 
         # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L229
