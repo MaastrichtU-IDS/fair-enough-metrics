@@ -15,7 +15,8 @@ This particular test takes a broad view of what defines a 'knowledge representat
     topics = ['data', 'minimal compliance']
     test_test={
         'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
-        'https://doi.org/10.1594/PANGAEA.908011': 0,
+        'https://doi.org/10.1594/PANGAEA.908011': 1,
+        'http://example.com': 0,
     }
 
 
