@@ -28,14 +28,14 @@ It also searches the metadata for the Dublin Core 'accessRights' property, which
         subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
         # Extract the download URL of the data from the RDF metadata
         data_res = eval.extract_data_subject(g, subject_uri)
-        if len(data_res) < 1:
+        if len(eval.data['content_url']) < 1:
             eval.failure("Could not find data URI in the metadata.")
 
 
         found_access_rights = False
         access_rights_preds = [ DCTERMS.accessRights ]
 
-        for data_uri in data_res:
+        for data_uri in eval.data['content_url']:
             eval.info('Checking if the data URI ' + data_uri + ' is a valid URL using urllib.urlparse')
             result = urlparse(data_uri)
             if result.scheme and result.netloc:
