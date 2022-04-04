@@ -65,6 +65,13 @@ uvicorn main:app --reload
 
 We use the `docker-compose.prod.yml` file to define the production deployment configuration.
 
+Define the Bing and Google Search API keys in the `secrets.env` file that will not be committed to git:
+
+```bash
+APIKEY_BING_SEARCH=bingapikey
+APIKEY_GOOGLE_SEARCH=googleapikey
+```
+
 To start the stack with production config:
 
 ```bash
@@ -77,17 +84,30 @@ docker-compose -f docker-compose.prod.yml up -d
 
 The tests are run automatically by a GitHub Action workflow at every push to the `main` branch.
 
+The subject URLs to test and their expected score are retrieved from the `test_test` attribute for each metric test.
+
 Add tests in the `./tests/test_metrics.py` file. You just need to add new entries to the JSON file to test different subjects results against the metrics tests:
 
-```python
-{
-    'metric_id': 'a1-access-protocol',
-    'subject': 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972',
-    'score': 1,
-},
+<details><summary>Install <code>pytest</code> for testing</summary>
+
+```bash
+pip install pytest
+```
+</details>
+
+Run the tests locally (from the root folder):
+
+```bash
+pytest -s
 ```
 
-Run the tests in docker-compose:
+Run the tests only for a specific metric test:
+
+```bash
+pytest -s --metric a1-metadata-protocol
+```
+
+Alternatively you can run the tests in docker-compose:
 
 ```bash
 docker-compose -f docker-compose.test.yml up --force-recreate
