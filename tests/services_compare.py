@@ -79,8 +79,17 @@ eval_collecs = [
     'fair-evaluator-maturity-indicators'
 ]
 
+
+
+# curl_cmd = "curl -i -L -k -H 'Accept: application/json' --data 'client_id=" + client_id + "&client_secret=" + client_id + "&grant_type=authorization_code&redirect_uri=" + redirect_uri + "&code=" + code + "' https://orcid.org/oauth/token"
+
+# curl -i -L -k -H 'Accept: application/json' --data "client_id=$ORCID_CLIENT_ID&client_secret=$ORCID_CLIENT_SECRET&grant_type=authorization_code&redirect_uri=http://localhost:19006&code=" + code + "' https://orcid.org/oauth/token
+
+# curl -i -L -k -H 'Accept: application/json' --data "client_id=$ORCID_CLIENT_ID&client_secret=$ORCID_CLIENT_SECRET&grant_type=authorization_code&redirect_uri=http://localhost:19006" https://orcid.org/oauth/authorize
+
 # def test_compare():
 def main():
+    apikey = 'aaa'
     
     for eval in eval_list:
         print(f"🔎 Evaluating \033[1m{eval['subject']}\033[0m")
@@ -91,6 +100,9 @@ def main():
                         'subject': eval['subject'],
                         'collection': collec,
                     },
+                    headers={
+                        'Authorization': f"Bearer {apikey}"
+                    }
                     # timeout=60,
                     # headers={"Accept": "application/ld+json"}
                 )
