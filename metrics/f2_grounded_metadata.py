@@ -43,7 +43,7 @@ This assessment will try to extract metadata from the resource URI:
         
         g = eval.retrieve_metadata(eval.subject)
 
-        if not isinstance(g, (list, dict)) and len(g) > 0:
+        if not isinstance(g, (list, dict)) and len(g) > 1:
             eval.success(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
         else:
             eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")

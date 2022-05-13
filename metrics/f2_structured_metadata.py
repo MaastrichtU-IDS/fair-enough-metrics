@@ -1,6 +1,6 @@
-from fair_test import FairTest, FairTestEvaluation
 import requests
 import yaml
+from fair_test import FairTest, FairTestEvaluation
 
 
 class MetricTest(FairTest):
@@ -43,9 +43,9 @@ This assessment will try to extract metadata from the resource URI:
         
         g = eval.retrieve_metadata(eval.subject)
 
-        if not isinstance(g, (list, dict)) and len(g) > 0:
+        if not isinstance(g, (list, dict)) and len(g) > 1:
             eval.success(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
-        elif isinstance(g, (list, dict)) and len(g) > 0:
+        elif isinstance(g, (list, dict)) and len(g) > 1:
             eval.success(f'Successfully found and parsed structured metadata. It contains {str(len(g))} objects')
         else:
             # eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")

@@ -2,16 +2,18 @@
 
 [![Test Metrics](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/MaastrichtU-IDS/fair-enough-metrics/actions/workflows/test.yml)
 
-FAIR Enough Metrics is an API for various [FAIR](https://www.go-fair.org/fair-principles) Metrics Tests, written in python, conforming to the specifications defined by the [FAIRMetrics](https://github.com/FAIRMetrics/Metrics) working group.
+An API for various core [FAIR](https://www.go-fair.org/fair-principles) Metrics Tests, written in python, conforming to the specifications defined by the [FAIRMetrics](https://github.com/FAIRMetrics/Metrics) working group.
 
-This API is deployed publicy at https://metrics.api.fair-enough.semanticscience.org
+FAIR metrics tests are API operations which test if a subject URL is complying with certain requirements defined by a community, they usually check if the resource available at the subject URL complies with the FAIR principles (Findable, Accessible, Interoperable, Reusable).
 
-It can be used with the following FAIR evaluation services:
+This API is deployed publicly at https://metrics.api.fair-enough.semanticscience.org
+
+🗃️ It can be used with the following FAIR evaluation services:
 
 * https://fair-enough.semanticscience.org
 * https://fairsharing.github.io/FAIR-Evaluator-FrontEnd
 
-FAIR evaluation API built with [`fair-test`](https://github.com/MaastrichtU-IDS/fair-test)
+This FAIR Metrics tests API has been built with the [**FAIR test**](https://maastrichtu-ids.github.io/fair-test/) python library.
 
 ## ➕ Contribute a new FAIR Metrics Tests
 
@@ -25,8 +27,6 @@ FAIR evaluation API built with [`fair-test`](https://github.com/MaastrichtU-IDS/
 3. Once your test is published, register it in existing FAIR evaluation services.
 
 ## 🧑‍💻 Deploy the API
-
-The API is built with [FastAPI](https://fastapi.tiangolo.com/), making use of python types annotations.
 
 First, clone the repository:
 

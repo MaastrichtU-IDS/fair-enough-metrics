@@ -1,7 +1,8 @@
-from fair_test import FairTest, FairTestEvaluation
 import json
+
 import requests
 import yaml
+from fair_test import FairTest, FairTestEvaluation
 
 
 class MetricTest(FairTest):
@@ -26,9 +27,9 @@ This particular test takes a broad view of what defines a 'knowledge representat
         # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L190
         g = eval.retrieve_metadata(eval.subject)
 
-        if not isinstance(g, (list, dict)) and len(g) > 0:
+        if not isinstance(g, (list, dict)) and len(g) > 1:
             eval.success(f'Successfully found and parsed RDF metadata. It contains {str(len(g))} triples')
-        elif isinstance(g, (list, dict)) and len(g) > 0:
+        elif isinstance(g, (list, dict)) and len(g) > 1:
             eval.success(f'Successfully found and parsed structured metadata. It contains {str(len(g))} objects')
         else:
             eval.warn('No RDF metadata found, searching for JSON')

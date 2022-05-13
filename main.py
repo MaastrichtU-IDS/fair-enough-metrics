@@ -1,6 +1,5 @@
 from fair_test import FairTestAPI
 
-
 app = FairTestAPI(
     title='FAIR Enough Metrics tests API',
     metrics_folder_path='metrics',

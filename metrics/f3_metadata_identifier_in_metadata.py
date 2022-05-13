@@ -1,7 +1,8 @@
-from fair_test import FairTest, FairTestEvaluation
-from rdflib import Literal, RDF, URIRef
-from rdflib.namespace import RDFS, XSD, DC, DCTERMS, VOID, OWL, SKOS, FOAF
 from urllib.parse import urlparse
+
+from fair_test import FairTest, FairTestEvaluation
+from rdflib import RDF, Literal, URIRef
+from rdflib.namespace import DC, DCTERMS, FOAF, OWL, RDFS, SKOS, VOID, XSD
 
 
 class MetricTest(FairTest):
@@ -27,7 +28,7 @@ If found, retrieve informations about this resource (title, description, date cr
     def evaluate(self, eval: FairTestEvaluation):
 
         g = eval.retrieve_metadata(eval.subject)
-        if not isinstance(g, (list, dict)) and len(g) > 0:
+        if not isinstance(g, (list, dict)) and len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
         else:
             eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")

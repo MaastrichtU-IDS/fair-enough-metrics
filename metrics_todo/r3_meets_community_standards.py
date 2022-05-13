@@ -1,11 +1,12 @@
+import os
+
+import requests
 from fair_test import FairTest, FairTestEvaluation
 from fastapi.responses import JSONResponse, PlainTextResponse
-import os
-import requests
-from rdflib import URIRef, RDF
-from rdflib.namespace import DCTERMS
 from pyshex import ShExEvaluator
 from pyshex.utils.schema_loader import SchemaLoader
+from rdflib import RDF, URIRef
+from rdflib.namespace import DCTERMS
 
 
 class MetricTest(FairTest):

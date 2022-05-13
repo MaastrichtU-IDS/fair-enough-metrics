@@ -1,7 +1,8 @@
-from fair_test import FairTest, FairTestEvaluation
-import requests
-import re
 import io
+import re
+
+import requests
+from fair_test import FairTest, FairTestEvaluation
 
 
 class MetricTest(FairTest):
@@ -28,7 +29,7 @@ Check if at least 1 of the namespace used can be found in the Linked Open Vocabu
 
         g = eval.retrieve_metadata(eval.subject)
         # g = eval.retrieve_metadata(eval.subject, use_harvester=True)
-        if not isinstance(g, (list, dict)) and len(g) > 0:
+        if not isinstance(g, (list, dict)) and len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
         else:
             eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")

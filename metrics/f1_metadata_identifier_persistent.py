@@ -1,6 +1,8 @@
-from fair_test import FairTest, FairTestEvaluation
 from urllib.parse import urlparse
+
 import requests
+from fair_test import FairTest, FairTestEvaluation
+
 # import idutils
 
 

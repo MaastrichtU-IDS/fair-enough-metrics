@@ -1,9 +1,11 @@
-from fair_test import FairTest, FairTestEvaluation
-import requests
-from urllib.parse import urlparse
 import json
 import os
+from urllib.parse import urlparse
+
+import requests
 from duckduckgo_search import ddg
+from fair_test import FairTest, FairTestEvaluation
+
 # from googlesearch import search
 # import qwant
 # from fastapi import APIRouter, Body, Depends
@@ -92,7 +94,7 @@ then search for the resource URL in popular search engines using the extracted t
 
         # If no title found through DataCite, try to get it from the subject URL RDF metadata
         if len(titles) < 1:
-            if not isinstance(g, (list, dict)) and len(g) > 0:
+            if not isinstance(g, (list, dict)) and len(g) > 1:
                 eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
             else:
                 eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")

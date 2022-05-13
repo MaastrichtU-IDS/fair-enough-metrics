@@ -20,7 +20,7 @@ Any form of ontologically-grounded linked data will pass this test."""
 
     def evaluate(self, eval: FairTestEvaluation):        
         g = eval.retrieve_metadata(eval.subject)
-        if not isinstance(g, (list, dict)) and len(g) > 0:
+        if not isinstance(g, (list, dict)) and len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
         else:
             eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")

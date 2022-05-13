@@ -1,9 +1,9 @@
+import requests
+
 # import pytest
 # from fastapi.testclient import TestClient
-import requests
 # import json
 # from main import app
-
 
 # python tests/metrics_compare.py
 # pytest tests/test_metrics_compare.py -s
