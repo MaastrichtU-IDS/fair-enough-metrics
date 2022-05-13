@@ -1,5 +1,8 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
 
+# Create non root user
+RUN addgroup --system app && adduser --system --group app
+
 WORKDIR /app/
 
 COPY ./requirements.txt /app/
@@ -13,7 +16,18 @@ RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then pip install pytest ; fi"
 
 COPY . /app
 
+# Make sure all files belongs to the app user
+RUN chown -R app:app /app && \
+    chown -R app:app $HOME
+
+
+USER app
+
 ENV APP_MODULE=main:app
+
+
+# Ensures that the python output is sent straight to terminal to see in real time
+# ENV PYTHONUNBUFFERED 1
 
 # Creates problem when installing pip packages from GitHub, and everything works without them, for the moment...
 # RUN python setup.py install
