@@ -1,7 +1,5 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9
 
-# Create non root user
-RUN addgroup --system app && adduser --system --group app
 
 WORKDIR /app/
 
@@ -16,10 +14,13 @@ RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then pip install pytest ; fi"
 
 COPY . /app
 
+
+# Create non root user app
+RUN addgroup --system app && adduser --system --group app
+
 # Make sure all files belongs to the app user
 RUN chown -R app:app /app && \
     chown -R app:app $HOME
-
 
 USER app
 
