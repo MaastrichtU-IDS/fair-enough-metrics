@@ -7,18 +7,18 @@ import pyshacl
 
 
 class MetricTest(FairTest):
-    metric_path = 'r1-accessible-license'
+    metric_path = 'r1-community-standards'
     applies_to_principle = 'R1'
-    title = 'Check accessible Usage License'
+    title = 'Check community standards'
     description = """The existence of a license document, for BOTH (independently) the data and its associated metadata, and the ability to retrieve those documents
 Resolve the licenses IRI"""
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
     test_test = {
-        'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
-        'https://doi.org/10.1594/PANGAEA.908011': 1,
-        'https://w3id.org/AmIFAIR': 1,
-        'http://example.com': 0,
+        # 'https://w3id.org/ejp-rd/fairdatapoints/wp13/dataset/c5414323-eab1-483f-a883-77951f246972': 1,
+        # 'https://doi.org/10.1594/PANGAEA.908011': 1,
+        # 'https://w3id.org/AmIFAIR': 1,
+        # 'http://example.com': 0,
     }
 
     def validate(data_graph, shapes_graph):

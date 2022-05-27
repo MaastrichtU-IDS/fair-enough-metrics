@@ -81,6 +81,8 @@ then search for the resource URL in popular search engines using the extracted t
 
                     if 'descriptions' in datacite_data.keys():
                         eval.data['datacite']['description'] = datacite_data['descriptions'][0]['description']
+                        if not 'description' in eval.data:
+                            eval.data['description'] = [datacite_data['descriptions'][0]['description']]
 
                     # eval.info('Checking RE3data APIs from DataCite API for metadata about ' + uri)
                     # p = {'query': 're3data_id:*'}
