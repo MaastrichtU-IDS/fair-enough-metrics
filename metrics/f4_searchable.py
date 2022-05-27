@@ -96,119 +96,119 @@ then search for the resource URL in popular search engines using the extracted t
             eval.warn('DOI could not be found, skipping search in DataCite API')
 
 
-        # # If no title found through DataCite, try to get it from the subject URL RDF metadata
-        # if len(titles) < 1:
-        #     if not isinstance(g, (list, dict)) and len(g) > 1:
-        #         eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
-        #     else:
-        #         eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
-        #         return eval.response()
-        #     subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
-        #     if subject_uri:
-        #         title_preds = [ 
-        #             'http://purl.org/dc/elements/1.1/title', 
-        #             'http://purl.org/dc/terms/title', 
-        #             'http://www.w3.org/2000/01/rdf-schema#label', 
-        #             'https://schema.org/name', 'http://ogp.me/ns#title', 
-        #             'https://schema.org/headline',
-        #         ]
-        #         titles = [str(s) for s in eval.extract_prop(g, title_preds, subject_uri)] 
-        #         eval.data['title'] = titles
+        # If no title found through DataCite, try to get it from the subject URL RDF metadata
+        if len(titles) < 1:
+            if not isinstance(g, (list, dict)) and len(g) > 1:
+                eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
+            else:
+                eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+                return eval.response()
+            subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
+            if subject_uri:
+                title_preds = [ 
+                    'http://purl.org/dc/elements/1.1/title', 
+                    'http://purl.org/dc/terms/title', 
+                    'http://www.w3.org/2000/01/rdf-schema#label', 
+                    'https://schema.org/name', 'http://ogp.me/ns#title', 
+                    'https://schema.org/headline',
+                ]
+                titles = [str(s) for s in eval.extract_prop(g, title_preds, subject_uri)] 
+                eval.data['title'] = titles
 
 
-        # # Check search engines using the resource title and its alternative URIs
-        # if len(titles) > 0:
-        #     title = titles[0]
-        #     resource_uris = eval.data['alternative_uris']
+        # Check search engines using the resource title and its alternative URIs
+        if len(titles) > 0:
+            title = titles[0]
+            resource_uris = eval.data['alternative_uris']
 
-        #     # Search DuckDuckGo
-        #     try:
-        #         eval.info(f'Searching DuckDuckGo for: {title}')
-        #         search_results = ddg(title, region='wt-wt', max_results=80)
-        #         # ddg(keywords, region='wt-wt', safesearch='Moderate', time=None, max_results=50):
-        #         # print(json.dumps(search_results, indent=2))
-        #         uris_found = [s['href'] for s in search_results] 
+            # Search DuckDuckGo
+            # try:
+            #     eval.info(f'Searching DuckDuckGo for: {title}')
+            #     search_results = ddg(title, region='wt-wt', max_results=80)
+            #     # ddg(keywords, region='wt-wt', safesearch='Moderate', time=None, max_results=50):
+            #     # print(json.dumps(search_results, indent=2))
+            #     uris_found = [s['href'] for s in search_results] 
                 
-        #         for uri_found in uris_found:
-        #             for subject_uri in resource_uris:
-        #                 if uri_found.startswith(subject_uri):
-        #                     eval.success(f'Found the resource URI {uri_found} when searching in DuckDuckGo for ' + title)
-        #                     return eval.response()
+            #     for uri_found in uris_found:
+            #         for subject_uri in resource_uris:
+            #             if uri_found.startswith(subject_uri):
+            #                 eval.success(f'Found the resource URI {uri_found} when searching in DuckDuckGo for ' + title)
+            #                 return eval.response()
 
-        #         eval.warn(f"Resource not found when searching in DuckDuckGo for {title}")
-        #     except Exception as e:
-        #         eval.info(f'Error running DuckDuckGo search: {str(e)}')
-        #         # import traceback
-        #         # print(traceback.print_exc())
-
-
-        #     # Google free limitations: 100 queries per day, and poor quality results
-        #     google_apikey = os.getenv('APIKEY_GOOGLE_SEARCH')
-        #     # google_cx   = os.getenv('CX_GOOGLE_SEARCH')
-        #     google_cx = 'b6774763e7b060a30'
-        #     google_endpoint = 'https://www.googleapis.com/customsearch/v1'
-        #     # To create new cx: go to https://cse.google.com/all
-        #     # Create a new engine using google.com as search website
-        #     # Once created, edit this engine in Setup > Basics
-        #     # Enable "Search the entire web"
-        #     # Test custom cx search: https://cse.google.com/cse?cx=b6774763e7b060a30
-        #     if google_apikey:
-        #         eval.info(f'Searching Google Custom Search Engine https://cse.google.com/cse?cx={google_cx} for: {title}')
-        #         try:
-        #             params = {
-        #                 'q': title,
-        #                 'key': google_apikey,
-        #                 'cx': google_cx,
-        #             }
-        #             search_res = requests.get(google_endpoint, params=params).json()
-        #             # print(json.dumps(search_res, indent=2))
-        #             for item in search_res['items']:
-        #                 for subject_uri in resource_uris:
-        #                     if item['link'].startswith(subject_uri):
-        #                         eval.success(f"Found the resource URI {item['link']} when searching in Google for {title}")
-        #                         return eval.response()
-        #                 # if item['link'] in resource_uris:
-        #                 #     eval.success(f"Found the resource URI {search_res['displayUrl']} when searching in Bing for: {title}")
-        #                 #     return eval.response()
-
-        #             eval.warn(f"Could not find the resource in Google searching for: {title}")
-        #         except Exception as e:
-        #             eval.warn(f"Error running Google search: {str(e)}")
+            #     eval.warn(f"Resource not found when searching in DuckDuckGo for {title}")
+            # except Exception as e:
+            #     eval.info(f'Error running DuckDuckGo search: {str(e)}')
+            #     # import traceback
+            #     # print(traceback.print_exc())
 
 
-        #     # Bing Search requires an API key: go to https://portal.azure.com/#blade/HubsExtension/BrowseResource/resourceType/Microsoft.Bing%2Faccounts
-        #     # or search for "Bing Resources" in the Azure portal
-        #     # Free plan limitations: 1k queries per month
-        #     bing_apikey = os.getenv('APIKEY_BING_SEARCH')
-        #     bing_endpoint = 'https://api.bing.microsoft.com/v7.0/search'
-        #     if bing_apikey:
-        #         eval.info('Searching Bing for: ' + title)
-        #         try:
-        #             headers = {"Ocp-Apim-Subscription-Key": bing_apikey}
-        #             params = {"q": title}
-        #             # params = {"q": title, "textDecorations": True, "textFormat": "HTML"}
-        #             response = requests.get(bing_endpoint, headers=headers, params=params)
-        #             response.raise_for_status()
-        #             search_results = response.json()
-        #             for search_res in search_results['webPages']['value']:
-        #                 for subject_uri in resource_uris:
-        #                     if search_res['displayUrl'].startswith(subject_uri):
-        #                         eval.success(f"Found the resource URI {search_res['displayUrl']} when searching in Bing for {title}")
-        #                         return eval.response()
-        #                 # if search_res['displayUrl'] in resource_uris:
-        #                 #     eval.success(f"Found the resource URI {search_res['displayUrl']} when searching in Bing for: {title}")
-        #                 #     return eval.response()
-        #         except Exception as e:
-        #             eval.warn(f"Error running Bing search: {str(e)}")
-        #     else:
-        #         eval.warn(f"No Bing API key found, skipping Bing search.")
+            # Google free limitations: 100 queries per day, and poor quality results
+            google_apikey = os.getenv('APIKEY_GOOGLE_SEARCH')
+            # google_cx   = os.getenv('CX_GOOGLE_SEARCH')
+            google_cx = 'b6774763e7b060a30'
+            google_endpoint = 'https://www.googleapis.com/customsearch/v1'
+            # To create new cx: go to https://cse.google.com/all
+            # Create a new engine using google.com as search website
+            # Once created, edit this engine in Setup > Basics
+            # Enable "Search the entire web"
+            # Test custom cx search: https://cse.google.com/cse?cx=b6774763e7b060a30
+            if google_apikey:
+                eval.info(f'Searching Google Custom Search Engine https://cse.google.com/cse?cx={google_cx} for: {title}')
+                try:
+                    params = {
+                        'q': title,
+                        'key': google_apikey,
+                        'cx': google_cx,
+                    }
+                    search_res = requests.get(google_endpoint, params=params).json()
+                    # print(json.dumps(search_res, indent=2))
+                    for item in search_res['items']:
+                        for subject_uri in resource_uris:
+                            if item['link'].startswith(subject_uri):
+                                eval.success(f"Found the resource URI {item['link']} when searching in Google for {title}")
+                                return eval.response()
+                        # if item['link'] in resource_uris:
+                        #     eval.success(f"Found the resource URI {search_res['displayUrl']} when searching in Bing for: {title}")
+                        #     return eval.response()
+
+                    eval.warn(f"Could not find the resource in Google searching for: {title}")
+                except Exception as e:
+                    eval.warn(f"Error running Google search: {str(e)}")
 
 
-        #     # Qwant search API not working
-        #     # https://api.qwant.com/api/search/web?q=test&locale=en_us&count=10
+            # Bing Search requires an API key: go to https://portal.azure.com/#blade/HubsExtension/BrowseResource/resourceType/Microsoft.Bing%2Faccounts
+            # or search for "Bing Resources" in the Azure portal
+            # Free plan limitations: 1k queries per month
+            bing_apikey = os.getenv('APIKEY_BING_SEARCH')
+            bing_endpoint = 'https://api.bing.microsoft.com/v7.0/search'
+            if bing_apikey:
+                eval.info('Searching Bing for: ' + title)
+                try:
+                    headers = {"Ocp-Apim-Subscription-Key": bing_apikey}
+                    params = {"q": title}
+                    # params = {"q": title, "textDecorations": True, "textFormat": "HTML"}
+                    response = requests.get(bing_endpoint, headers=headers, params=params)
+                    response.raise_for_status()
+                    search_results = response.json()
+                    for search_res in search_results['webPages']['value']:
+                        for subject_uri in resource_uris:
+                            if search_res['displayUrl'].startswith(subject_uri):
+                                eval.success(f"Found the resource URI {search_res['displayUrl']} when searching in Bing for {title}")
+                                return eval.response()
+                        # if search_res['displayUrl'] in resource_uris:
+                        #     eval.success(f"Found the resource URI {search_res['displayUrl']} when searching in Bing for: {title}")
+                        #     return eval.response()
+                except Exception as e:
+                    eval.warn(f"Error running Bing search: {str(e)}")
+            else:
+                eval.warn(f"No Bing API key found, skipping Bing search.")
 
-        # else:
-        #     eval.warn('No resource title found, cannot search in Search Engine')
+
+            # Qwant search API not working
+            # https://api.qwant.com/api/search/web?q=test&locale=en_us&count=10
+
+        else:
+            eval.warn('No resource title found, cannot search in Search Engine')
 
         return eval.response()
 
