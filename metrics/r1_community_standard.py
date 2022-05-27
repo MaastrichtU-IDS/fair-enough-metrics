@@ -1,9 +1,8 @@
+import pyshacl
 import requests
 from fair_test import FairTest, FairTestEvaluation
 from rdflib import RDF, Literal, URIRef
 from rdflib.namespace import DC, DCTERMS, FOAF, OWL, RDFS, SKOS, VOID, XSD
-
-import pyshacl
 
 
 class MetricTest(FairTest):
