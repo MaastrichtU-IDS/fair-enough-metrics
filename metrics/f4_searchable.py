@@ -121,7 +121,7 @@ then search for the resource URL in popular search engines using the extracted t
             title = titles[0]
             resource_uris = eval.data['alternative_uris']
 
-            # Search DuckDuckGo
+            # Searching DuckDuckGo NOT GOOD, they block the IP of our servers at some point
             # try:
             #     eval.info(f'Searching DuckDuckGo for: {title}')
             #     search_results = ddg(title, region='wt-wt', max_results=80)
