@@ -3,7 +3,8 @@ import os
 from urllib.parse import urlparse
 
 import requests
-from duckduckgo_search import ddg
+
+# from duckduckgo_search import ddg
 from fair_test import FairTest, FairTestEvaluation
 
 # from googlesearch import search

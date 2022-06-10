@@ -3,5 +3,5 @@ fair-test@git+https://github.com/MaastrichtU-IDS/fair-test@main
 # fair-test>=0.0.4
 PyYAML
 IDUtils
-duckduckgo-search
+# duckduckgo-search
 pyshacl

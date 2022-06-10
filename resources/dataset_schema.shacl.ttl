@@ -1,0 +1,54 @@
+@prefix: <http://example.org/> .
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+
+# https://raw.githubusercontent.com/MaastrichtU-IDS/fair-enough-metrics/main/resources/dataset_schema.shacl.ttl
+
+:ValidSchemaDataset a sh:NodeShape;
+	sh:targetClass schema:Dataset;
+	sh:nodeKind sh:BlankNodeOrIRI;
+
+    sh:property [
+        sh:path schema:name;
+        sh:nodeKind sh:Literal;
+        sh:minCount 1;
+        rdfs:comment "Name is required";
+    ];
+    sh:property [
+        sh:path schema:description;
+        sh:nodeKind sh:Literal;
+        sh:minCount 1;
+        rdfs:comment "Description is required";
+        # rdfs:label "warning";
+    ];
+
+	# sh:property [
+	# 	sh:path schema:catalog;
+	# 	sh:node :ValidSchemaDataCatalog;
+	# ];
+	# sh:property [
+	# 	sh:path schema:datasetTimeInterval;
+	# 	sh:node :ValidSchemaDateTime;
+	# ];
+	# sh:property [
+	# 	sh:path schema:distribution;
+	# 	sh:node :ValidSchemaDataDownload;
+	# ];
+	# sh:property [
+	# 	sh:path schema:includedDataCatalog;
+	# 	sh:node :ValidSchemaDataCatalog;
+	# ];
+	# sh:property [
+	# 	sh:path schema:includedInDataCatalog;
+	# 	sh:node :ValidSchemaDataCatalog;
+	# ];
+	# sh:property [
+	# 	sh:path schema:issn;
+	# 	sh:node :ValidSchemaText;
+	# ];
+    .
+
