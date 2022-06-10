@@ -7,12 +7,13 @@
 
 
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dct: <http://purl.org/dc/terms/> .
 
 # https://raw.githubusercontent.com/MaastrichtU-IDS/fair-enough-metrics/main/resources/metadata_sample_success.ttl
 
 :MyDataset a schema:Dataset ;
 	schema:name "Dataset test" ;
 	schema:description "Dataset test desc" ;
-	dc:conformsTo <https://raw.githubusercontent.com/MaastrichtU-IDS/fair-enough-metrics/main/resources/dataset_schema.shacl.ttl> ;
+	dct:conformsTo <https://raw.githubusercontent.com/MaastrichtU-IDS/fair-enough-metrics/main/resources/dataset_schema.shacl.ttl> ;
     .
 

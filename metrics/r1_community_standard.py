@@ -45,11 +45,6 @@ class MetricTest(FairTest):
 
         g = eval.retrieve_metadata(eval.subject)
 
-        
-
-        # g = eval.retrieve_metadata(
-        #     eval.subject, use_harvester=True, harvester_url='http://wrong-url-for-testing')
-
         if len(g) == 0:
             eval.failure('No RDF found at the subject URL provided.')
             return eval.response()
@@ -68,13 +63,17 @@ class MetricTest(FairTest):
         #     'https://schema.org/distribution'
         # ]
 
+        validated = False
+
         eval.info(f"Checking for schema in RDF metadata using predicates: {str(schema_preds)}")
         for s, p, o in g.triples((None, URIRef('http://purl.org/dc/terms/conformsTo'), None)):
             shacl_g = eval.retrieve_metadata(str(o))
+
+            eval.info(f"SHACL graph contains {len(shacl_g)} triples")
+            
+            validated = self.validate(g, shacl_g)
             break
         
-        # TODO: run SHACL g
-        validated = self.validate(g, shacl_g)
 
         if validated:
             eval.success('KG data is validated by the Schema')
