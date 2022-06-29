@@ -20,7 +20,8 @@ It will succeed if you have at least 1 object in your metadata that uses a diffe
     }
 
 
-    def evaluate(self, eval: FairTestEvaluation):        
+    def evaluate(self, eval: FairTestEvaluation):
+        
         # https://github.com/vemonet/fuji/blob/master/fuji_server/helper/preprocessor.py#L190
         g = eval.retrieve_metadata(eval.subject)
         if not isinstance(g, (list, dict)) and len(g) > 1:

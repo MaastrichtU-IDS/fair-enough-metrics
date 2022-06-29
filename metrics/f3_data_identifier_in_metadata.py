@@ -24,6 +24,7 @@ This is done by searching for a variety of properties, including `foaf:primaryTo
 
 
     def evaluate(self, eval: FairTestEvaluation):
+        
         g = eval.retrieve_metadata(eval.subject)
         if not isinstance(g, (list, dict)) and len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')

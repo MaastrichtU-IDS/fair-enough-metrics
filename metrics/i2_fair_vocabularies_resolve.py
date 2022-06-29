@@ -22,7 +22,8 @@ One predicate from each hostname is tested, the test is successful if more than 
     }
 
 
-    def evaluate(self, eval: FairTestEvaluation):        
+    def evaluate(self, eval: FairTestEvaluation):
+        
         g = eval.retrieve_metadata(eval.subject)
         if not isinstance(g, (list, dict)) and len(g) > 1:
             eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')

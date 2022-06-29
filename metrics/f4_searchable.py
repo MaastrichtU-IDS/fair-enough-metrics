@@ -38,6 +38,11 @@ then search for the resource URL in popular search engines using the extracted t
     def evaluate(self, eval: FairTestEvaluation):
         g = eval.retrieve_metadata(eval.subject)
 
+        subject_url = eval.get_url(eval.subject)
+        if not subject_url:
+            eval.failure(f'The resource {eval.subject} does not use a valid identifier schema, such as URL, DOI, or handle')
+            return eval.response()
+
         # print(g.serialize(format='turtle'))
 
         datacite_dois_api = 'https://api.datacite.org/dois/'
@@ -47,13 +52,13 @@ then search for the resource URL in popular search engines using the extracted t
         headers = {"Accept": "application/json"}
         titles = []
         doi = None
-        result = urlparse(eval.subject)
+        result = urlparse(subject_url)
         if result.scheme and result.netloc:
             if result.netloc == 'doi.org':
                 doi = result.path[1:]
-                eval.info('The subject resource URI ' + eval.subject + ' is a DOI')
+                eval.info('The subject resource URI ' + subject_url + ' is a DOI')
         else:
-            eval.warn('Could not validate the given resource URI ' + eval.subject + ' is a URL')    
+            eval.warn('Could not validate the given resource URI ' + subject_url + ' is a URL')    
 
         # If DOI, we first check for metadata in the DataCite API
         if doi:
@@ -99,9 +104,9 @@ then search for the resource URL in popular search engines using the extracted t
         # If no title found through DataCite, try to get it from the subject URL RDF metadata
         if len(titles) < 1:
             if not isinstance(g, (list, dict)) and len(g) > 1:
-                eval.info(f'Successfully found and parsed RDF metadata available at {eval.subject}. It contains {str(len(g))} triples')
+                eval.info(f'Successfully found and parsed RDF metadata available at {subject_url}. It contains {str(len(g))} triples')
             else:
-                eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
+                eval.failure(f"No RDF metadata found at the subject URL {subject_url}")
                 return eval.response()
             subject_uri = eval.extract_metadata_subject(g, eval.data['alternative_uris'])
             if subject_uri:

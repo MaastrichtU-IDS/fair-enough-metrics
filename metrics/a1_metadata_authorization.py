@@ -9,7 +9,7 @@ class MetricTest(FairTest):
     metric_path = 'a1-metadata-authorization'
     applies_to_principle = 'A1.2'
     title = 'Metadata authentication and authorization'
-    description = """Tests metadata GUID for the ability to implement authentication and authorization in its resolution protocol. Accept URLs."""
+    description = """Tests metadata GUID for the ability to implement authentication and authorization in its resolution protocol. Accept URLs, DOIs, handles."""
     topics = ['metadata']
     author = 'https://orcid.org/0000-0002-1501-1082'
     metric_version = '0.1.0'
@@ -21,18 +21,14 @@ class MetricTest(FairTest):
 
 
     def evaluate(self, eval: FairTestEvaluation):
-        # TODO: use https://pythonhosted.org/IDUtils
         
-        eval.info('Checking if the given resource URI ' + eval.subject + ' is a valid URL using urllib.urlparse')
-        result = urlparse(eval.subject)
-        if result.scheme and result.netloc:
-            # Get URI protocol retrieved in f1_1_assess_unique_identifier
-            eval.data['uri_protocol'] = result.scheme
-            eval.data['uri_location'] = result.netloc
-            if result.netloc == 'doi.org':
-                eval.data['uri_doi'] = result.path[1:]
-            eval.success('Validated the given resource URI ' + eval.subject + ' is a URL')
+        eval.info(f"Checking if the resource identifier {eval.subject} uses a valid protocol that enables authorization, such as URL, DOI, or handle")
+        subject_url = eval.get_url(eval.subject)
+
+        if subject_url:
+            eval.success(f'The resource {eval.subject} uses a valid protocol that enables authorization')
+
         else:
-            eval.failure('Could not validate the given resource URI ' + eval.subject + ' is a URL')    
+            eval.failure(f'The resource {eval.subject} does not use a valid protocol that enables authorization, such as URL, DOI, or handle')
 
         return eval.response()

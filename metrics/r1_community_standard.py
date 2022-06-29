@@ -55,6 +55,6 @@ class MetricTest(FairTest):
         
 
         if validated:
-            eval.success('KG data is validated by the Schema')
+            eval.success('Metadata is validated by the Schema')
 
         return eval.response()

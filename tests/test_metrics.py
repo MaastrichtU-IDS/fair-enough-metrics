@@ -7,5 +7,6 @@ from main import app
 
 endpoint = TestClient(app)
 
+
 def test_api(pytestconfig):
     app.run_tests(endpoint, pytestconfig.getoption('metric'))

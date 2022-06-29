@@ -21,18 +21,14 @@ class MetricTest(FairTest):
 
 
     def evaluate(self, eval: FairTestEvaluation):
-        # TODO: use https://pythonhosted.org/IDUtils
         
-        eval.info('Checking if the given resource URI ' + eval.subject + ' is a valid URL using urllib.urlparse')
-        result = urlparse(eval.subject)
-        if result.scheme and result.netloc:
-            # Get URI protocol retrieved in f1_1_assess_unique_identifier
-            eval.data['uri_protocol'] = result.scheme
-            eval.data['uri_location'] = result.netloc
-            if result.netloc == 'doi.org':
-                eval.data['uri_doi'] = result.path[1:]
-            eval.success('Validated the given resource URI ' + eval.subject + ' is a URL')
+        eval.info(f"Checking if the resource identifier {eval.subject} uses a valid protocol, such as URL, DOI, or handle")
+        subject_url = eval.get_url(eval.subject)
+
+        if subject_url:
+            eval.success(f'The resource {eval.subject} uses a valid protocol')
+
         else:
-            eval.failure('Could not validate the given resource URI ' + eval.subject + ' is a URL')    
+            eval.failure(f'The resource {eval.subject} does not use a valid protocol, such as URL, DOI, or handle')
 
         return eval.response()
