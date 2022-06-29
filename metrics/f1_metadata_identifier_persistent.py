@@ -1,9 +1,6 @@
 from urllib.parse import urlparse
 
-import requests
 from fair_test import FairTest, FairTestEvaluation
-
-# import idutils
 
 
 class MetricTest(FairTest):
