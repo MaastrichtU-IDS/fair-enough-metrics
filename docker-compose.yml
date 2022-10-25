@@ -1,12 +1,40 @@
-version: "3.3"
+version: "3.4"
 services:
 
-  api:
-    build: .
-    restart: unless-stopped
+  dev:
+    build:
+      target: dev
     ports:
-      - 8001:80
+      - 8000:8000
     volumes:
       - ./metrics:/app/metrics
+      - ./tests:/app/tests
+      - ./main.py:/app/main.py
     command: /start-reload.sh
     # command: uvicorn main:app --host 0.0.0.0 --port 8000
+
+
+  test:
+    build:
+      target: dev
+    volumes:
+      - ./metrics:/app/metrics
+      - ./tests:/app/tests
+    command: pytest -s
+
+
+  prod:
+    restart: unless-stopped
+    build:
+      target: prod
+    ports:
+      - 8000:8000
+    ## To deploy in production with https://github.com/nginx-proxy/nginx-proxy
+    environment:
+      - VIRTUAL_HOST=metrics.api.fair-enough.semanticscience.org
+      - LETSENCRYPT_HOST=metrics.api.fair-enough.semanticscience.org
+      - VIRTUAL_PORT=8000
+
+    ## If need to pass secrets to the API:
+    # env_file:
+    #   - secrets.env

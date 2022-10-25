@@ -37,33 +37,29 @@ cd fair-enough-metrics
 
 ### 🐳 Development with docker (recommended)
 
-From the root of the cloned repository, run the command below, and access the OpenAPI Swagger UI on http://localhost:8000
+To deploy the API in development, with automatic reload when the code changes run this command:
 
 ```bash
-docker-compose up
+docker-compose up dev
 ```
 
-> The API will automatically reload on changes to the code 🔄
+Access the OpenAPI Swagger UI on http://localhost:8000
 
-### 🐍 Development without docker
-
-Note: it has been tested only with Python 3.8
-
-Install dependencies from the source code:
+If you make changes to the dependencies in `pyproject.toml` you will need to rebuild the image to install the new requirements:
 
 ```bash
-pip install -e .
+docker-compose up dev --build
 ```
 
-Start the API locally on http://localhost:8000
+Run the **tests**:
 
 ```bash
-uvicorn main:app --reload
+docker-compose run test
+# You can pass args:
+docker-compose run test pytest -s
 ```
 
-### 🚀 In production with docker
-
-We use the `docker-compose.prod.yml` file to define the production deployment configuration.
+Run in **production** (change the `docker-compose.yml` to your deployment solution):
 
 Define the Bing and Google Search API keys in the `secrets.env` file that will not be committed to git:
 
@@ -75,25 +71,45 @@ APIKEY_GOOGLE_SEARCH=googleapikey
 To start the stack with production config:
 
 ```bash
-docker-compose -f docker-compose.prod.yml up -d
+docker-compose up prod -d
 ```
 
 > We use a reverse [nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) for docker to route the services.
 
-## ✔️ Test the Metrics Tests API
+### 🐍 Without docker
+
+#### 📥️ Install dependencies
+
+Create and activate a virtual environment if necessary:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Install dependencies from the source code:
+
+```bash
+pip install -e ".[test,dev]"
+```
+
+#### Deploy the API in development
+
+Start the API locally on http://localhost:8000
+
+```bash
+uvicorn main:app --reload
+```
+
+> The API will automatically reload on changes to the code 🔄
+
+#### ✔️ Test the Metrics Tests API
 
 The tests are run automatically by a GitHub Action workflow at every push to the `main` branch.
 
 The subject URLs to test and their expected score are retrieved from the `test_test` attribute for each metric test.
 
 Add tests in the `./tests/test_metrics.py` file. You just need to add new entries to the JSON file to test different subjects results against the metrics tests:
-
-<details><summary>Install <code>pytest</code> for testing</summary>
-
-```bash
-pip install pytest
-```
-</details>
 
 Run the tests locally (from the root folder):
 
@@ -107,17 +123,11 @@ Run the tests only for a specific metric test:
 pytest -s --metric a1-metadata-protocol
 ```
 
-Alternatively you can run the tests in docker-compose:
 
-```bash
-docker-compose -f docker-compose.test.yml up --force-recreate
-```
-
-> You can enable more detailed logs by changing the `command:` in the `docker-compose.test.yml` file to use `pytest -s`
 
 ## ➕ Create a new FAIR Metrics Tests service
 
-You can easily use this repository to develop and publish new FAIR metrics tests. 
+You can easily use this repository to develop and publish new FAIR metrics tests.
 
 1. Fork this repository
 2. Change the API settings in `api/config.py`
