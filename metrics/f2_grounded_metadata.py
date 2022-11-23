@@ -5,7 +5,7 @@ class MetricTest(FairTest):
     metric_path = 'f2-grounded-metadata'
     applies_to_principle = 'F2'
     title = 'Metadata is grounded and machine-readable'
-    description = """Tests whether a machine is able to find 'grounded' metadata. i.e. metadata terms that are in a resolvable namespace, where resolution leads to a definition of the meaning of the term. 
+    description = """Tests whether a machine is able to find 'grounded' metadata. i.e. metadata terms that are in a resolvable namespace, where resolution leads to a definition of the meaning of the term.
 Examples include JSON-LD, embedded schema, or any form of RDF.
 This assessment will try to extract metadata from the resource URI:
 - Extract metadata from the HTML landing page using extruct
@@ -27,7 +27,7 @@ This assessment will try to extract metadata from the resource URI:
         'https://doi.org/10.1016/J.JBI.2019.103292': 1,
         'https://w3id.org/AmIFAIR': 1,
         'https://purl.uniprot.org/uniprot/P51587': 1,
-        'https://w3id.org/FAIR_Evaluator/evaluations/6259.json': 1,
+        # 'https://w3id.org/FAIR_Evaluator/evaluations/6259.json': 1,
         'http://semanticscience.org/resource/metadata': 1,
         'http://example.com': 0,
         # 'https://w3id.org/FAIR_Tests/tests/gen2_structured_metadata': 0,
@@ -40,12 +40,12 @@ This assessment will try to extract metadata from the resource URI:
 
     def evaluate(self, eval: FairTestEvaluation):
         eval.info('Checking if machine readable data (e.g. RDF, JSON-LD) can be retrieved using content-negotiation at ' + eval.subject)
-        
+
         g = eval.retrieve_metadata(eval.subject)
 
         if not isinstance(g, (list, dict)) and len(g) > 1:
             eval.success(f'RDF metadata containing {len(g)} triples found at the subject URL provided.')
         else:
             eval.failure(f"No RDF metadata found at the subject URL {eval.subject}")
-        
+
         return eval.response()

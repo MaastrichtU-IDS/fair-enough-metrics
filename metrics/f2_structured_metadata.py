@@ -9,8 +9,8 @@ class MetricTest(FairTest):
     title = 'Metadata is structured'
     description = """Tests whether a machine is able to find structured metadata. This could be (for example) RDFa, embedded json, json-ld, or content-negotiated structured metadata such as RDF Turtle.
 This assessment will try to extract metadata from the resource URI:
-- Search for structured metadata at the resource URI. 
-- Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON, YAML), 
+- Search for structured metadata at the resource URI.
+- Use HTTP requests with content-negotiation (RDF, JSON-LD, JSON, YAML),
 - Extract metadata from the HTML landing page using extruct"""
     topics = ['metadata']
     author = 'https://orcid.org/0000-0002-1501-1082'
@@ -40,7 +40,7 @@ This assessment will try to extract metadata from the resource URI:
 
     def evaluate(self, eval: FairTestEvaluation):
         eval.info('Checking if machine readable data (e.g. RDF, JSON-LD) can be retrieved using content-negotiation at ' + eval.subject)
-        
+
         g = eval.retrieve_metadata(eval.subject)
 
         if not isinstance(g, (list, dict)) and len(g) > 1:
