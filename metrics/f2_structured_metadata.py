@@ -28,7 +28,7 @@ This assessment will try to extract metadata from the resource URI:
         'https://doi.org/10.1016/J.JBI.2019.103292': 1,
         'https://w3id.org/AmIFAIR': 1,
         'https://purl.uniprot.org/uniprot/P51587': 1,
-        'https://w3id.org/FAIR_Evaluator/evaluations/6259.json': 1,
+        # 'https://w3id.org/FAIR_Evaluator/evaluations/6259.json': 1,
         'http://example.com': 0,
         # 'https://w3id.org/FAIR_Tests/tests/gen2_structured_metadata': 0,
         # FAIRsharing not consistent, most of the time give 1, but sometimes fails (their server timeout)
